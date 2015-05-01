@@ -12,7 +12,7 @@ class TwitterUnfollowWorker
 
           next if unfollow_days < 1
 
-          users_to_unfollow = user.twitter_follow.where('followed_at >= ? AND unfollowed IS FALSE', unfollow_days.days.ago)
+          users_to_unfollow = user.twitter_follow.where('followed_at <= ? AND unfollowed IS FALSE', unfollow_days.days.ago)
 
           next if users_to_unfollow.empty?
 
