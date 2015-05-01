@@ -8,7 +8,6 @@ class TwitterFollowWorker
     User.wants_twitter_follow.find_in_batches do |group|
       group.each do |user|
         begin
-          binding.pry
           follow_prefs = user.twitter_follow_preference
           hashtags = follow_prefs.hashtags.split(',')
 

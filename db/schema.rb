@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150501041017) do
+ActiveRecord::Schema.define(version: 20150501050037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,12 +37,12 @@ ActiveRecord::Schema.define(version: 20150501041017) do
 
   create_table "twitter_follows", force: :cascade do |t|
     t.integer  "user_id"
-    t.boolean  "unfollowed"
+    t.boolean  "unfollowed",    default: false
     t.string   "username"
     t.datetime "followed_at"
     t.datetime "unfollowed_at"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "users", force: :cascade do |t|
