@@ -1,0 +1,6 @@
+development:
+  adapter: postgresql
+  database: followr
+  username: Winter
+  host: localhost
+  pool: 15
