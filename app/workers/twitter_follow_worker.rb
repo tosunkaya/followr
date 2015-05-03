@@ -13,7 +13,7 @@ class TwitterFollowWorker
 
           next if follow_prefs.rate_limited? || hashtags.blank?
 
-          client = Credential.find(user).twitter_client
+          client = user.credential.twitter_client
           
           twitter_users_passed = []
 
