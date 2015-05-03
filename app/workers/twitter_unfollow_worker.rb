@@ -10,11 +10,14 @@ class TwitterUnfollowWorker
           follow_prefs = user.twitter_follow_preference
           unfollow_days = follow_prefs.unfollow_after
 
+
           next if unfollow_days < 1
 
           users_to_unfollow = user.twitter_follow.where('followed_at <= ? AND unfollowed IS FALSE', unfollow_days.days.ago)
 
           next if users_to_unfollow.empty?
+
+          client = Credential.find(user).twitter_client
 
           users_to_unfollow.each do |followed_user|
             begin
