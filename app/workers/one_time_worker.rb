@@ -7,7 +7,7 @@ class OneTimeWorker
 
     users.each do |user|
       client = Credential.find(user).twitter_client
-      users_to_unfollow = user.twitter_follow
+      users_to_unfollow = user.twitter_follow.sort_by {|l| l.created_at }.reverse
       users_to_unfollow.each do |followed_user|
         begin
           puts "One Time: #{user.email} - unfollow #{followed_user.username} - TwitterFollowID: #{followed_user.id}"
