@@ -9,16 +9,12 @@ class TwitterUnfollowWorker
         begin
           follow_prefs = user.twitter_follow_preference
           unfollow_days = follow_prefs.unfollow_after
-
-          next if unfollow_days < 1
-
           users_to_unfollow = user.twitter_follow.where('followed_at <= ?', unfollow_days.to_i.days.ago)
-
-          next if users_to_unfollow.empty?
-
           client = Credential.find(user).twitter_client
 
           next if client.nil?
+          next if unfollow_days < 1
+          next if users_to_unfollow.empty?
 
           users_to_unfollow.each do |followed_user|
             begin
@@ -28,6 +24,7 @@ class TwitterUnfollowWorker
               followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
             rescue => e
               Raygun.track_exception(e)
+            end
           end
         rescue => e
           Raygun.track_exception(e)
