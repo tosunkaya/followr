@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 	has_many :twitter_follow
-	has_many :credential
+	has_one :credential
 	has_one :twitter_follow_preference
 
 	validates_presence_of :email

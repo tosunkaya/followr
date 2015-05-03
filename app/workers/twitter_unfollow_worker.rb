@@ -18,7 +18,7 @@ class TwitterUnfollowWorker
 
           users_to_unfollow.each do |followed_user|
             begin
-              client.unfollow(followed_user.twitter_id)
+              client.unfollow(followed_user.username)
               followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
             rescue Twitter::Error::NotFound => e
               followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
