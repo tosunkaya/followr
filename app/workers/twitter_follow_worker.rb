@@ -17,7 +17,7 @@ class TwitterFollowWorker
           
           twitter_users_passed = []
 
-          client.search("#{hashtags.sample} -rt", lang: 'en').take(1000).collect.each do |tweet|
+          client.search("##{hashtags.sample}", lang: 'en').take(1000).collect.each do |tweet|
             username = tweet.user.screen_name.to_s
 
             next if twitter_users_passed.include?(username)
