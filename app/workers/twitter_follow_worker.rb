@@ -43,7 +43,7 @@ class TwitterFollowWorker
           puts "Twitter::Error::Forbidden: #{user.email}"
         rescue => e
           puts "Follow Worker: ERROR:: \n #{e}"
-          Raygun.track_exception(e)
+          Airbrake.notify(e)
         end
       end
     end

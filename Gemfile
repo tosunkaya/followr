@@ -16,7 +16,7 @@ gem 'redis'
 gem 'sidekiq'
 gem 'sidetiq'
 
-gem 'raygun4ruby'
+gem 'airbrake'
 
 gem 'twitter'
 

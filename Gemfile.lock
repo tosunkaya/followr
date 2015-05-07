@@ -37,6 +37,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    airbrake (4.1.0)
+      builder
+      multi_json
     arel (6.0.0)
     buftok (0.2.0)
     builder (3.2.2)
@@ -208,6 +211,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   coffee-rails (~> 4.1.0)
   jquery-rails
   pg

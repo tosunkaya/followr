@@ -27,11 +27,11 @@ class TwitterUnfollowWorker
             rescue Twitter::Error::NotFound => e
               followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
             rescue => e
-              Raygun.track_exception(e)
+              Airbrake.notify(e)
             end
           end
         rescue => e
-          Raygun.track_exception(e)
+          Airbrake.notify(e)
         end
       end
     end
