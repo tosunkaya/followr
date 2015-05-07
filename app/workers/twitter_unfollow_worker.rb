@@ -19,7 +19,10 @@ class TwitterUnfollowWorker
           users_to_unfollow.each do |followed_user|
             begin
               puts "Unfollow Worker: #{user.email}: #{followed_user.username}"
+              
               client.unfollow(followed_user.username)
+              client.unmute(username)
+
               followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
             rescue Twitter::Error::NotFound => e
               followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})

@@ -28,6 +28,8 @@ class TwitterFollowWorker
             next if entry.present?
 
             client.follow(username)
+            client.mute(username) # don't show their tweets in the feed
+
             TwitterFollow.follow(user, username)
           end
           
