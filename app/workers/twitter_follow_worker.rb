@@ -11,10 +11,11 @@ class TwitterFollowWorker
           follow_prefs = user.twitter_follow_preference
           hashtags = follow_prefs.hashtags.split(',')
 
-          client = user.credential.twitter_client
+          client = user.credential.twitter_client rescue nil
 
-          next if follow_prefs.rate_limited? || hashtags.blank?
           next if client.nil?
+          next if follow_prefs.rate_limited? || hashtags.blank?
+          
           
           twitter_users_passed = []
 
