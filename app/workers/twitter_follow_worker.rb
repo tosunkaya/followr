@@ -31,14 +31,18 @@ class TwitterFollowWorker
             client.mute(username) # don't show their tweets in the feed
 
             TwitterFollow.follow(user, username)
+            puts "Follow Worker: #{user.email}: #{username}"
           end
           
         rescue Twitter::Error::TooManyRequests => e
-          sleep_time = (e.rate_limit.reset_in + 1.minute)/60
+          sleep_time = (e.rate_limit.reset_in + 1.minute)/60 rescue 16
           follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
           follow_prefs.save
           puts "Sleeping until: #{follow_prefs.rate_limit_until}: #{user.email}"
+        rescue Twitter::Error::Forbidden => e
+          puts "Twitter::Error::Forbidden: #{user.email}"
         rescue => e
+          puts "Follow Worker: ERROR:: \n #{e}"
           Raygun.track_exception(e)
         end
       end
