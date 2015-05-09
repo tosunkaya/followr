@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.1.3'
+
 gem 'rails', '4.2.1'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -16,9 +18,15 @@ gem 'redis'
 gem 'sidekiq'
 gem 'sidetiq'
 
+gem 'dotenv-rails'
+
 gem 'airbrake'
 
 gem 'twitter'
+gem 'twitter_oauth'
+
+gem 'omniauth'
+gem 'omniauth-twitter'
 
 
 group :development, :test do 
