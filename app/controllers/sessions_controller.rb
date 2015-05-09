@@ -5,6 +5,12 @@ class SessionsController < ApplicationController
 	    user = User.find_by_twitter_uid(auth["uid"]) || User.create_with_omniauth(auth)
 
 	    session[:user_id] = user.id
-	    redirect_to '/dashboard', :notice => "Signed in!"r
+	    redirect_to root_path
 	end
+
+
+	def destroy  
+	  session[:user_id] = nil
+	  redirect_to root_url
+	end  
 end

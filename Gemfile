@@ -23,11 +23,12 @@ gem 'dotenv-rails'
 gem 'airbrake'
 
 gem 'twitter'
-gem 'twitter_oauth'
 
 gem 'omniauth'
 gem 'omniauth-twitter'
 
+
+gem 'draper', '~> 1.3' # decorator
 
 group :development, :test do 
 	gem 'pry'
