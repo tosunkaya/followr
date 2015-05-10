@@ -32,6 +32,7 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 
 
+gem 'attr_encrypted'
 
 gem 'draper', '~> 1.3' # decorator
 
