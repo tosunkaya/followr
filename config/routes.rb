@@ -19,8 +19,5 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback" => "sessions#create"
   
   get "/logout" => "sessions#destroy", :as => :signout
-  
-  # get '/preferences/twitter' => 'twitter_follow_preferences#edit', as: 'twitter_follow_preference'
-  # patch '/preferences/twitter' => 'twitter_follow_preferences#update'
 
 end

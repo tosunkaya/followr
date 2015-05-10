@@ -50,7 +50,7 @@ class TwitterFollowPreferencesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_twitter_follow_preference
-      @twitter_follow_preference = TwitterFollowPreference.find(current_user.id)
+      @twitter_follow_preference = TwitterFollowPreference.find(current_user.twitter_follow_preference)
     end
 
     def auth_user
