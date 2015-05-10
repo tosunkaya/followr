@@ -5,7 +5,7 @@ class TwitterUnfollowWorker
   recurrence { hourly.minute_of_hour(0, 30) }
 
   def perform
-    User.wants_twitter_follow.find_in_batches do |group|
+    User.wants_twitter_unfollow.find_in_batches do |group|
       group.each do |user|
         begin
           follow_prefs = user.twitter_follow_preference

@@ -3,7 +3,8 @@ class User < ActiveRecord::Base
 	has_one :credential, dependent: :destroy
 	has_one :twitter_follow_preference, dependent: :destroy
 
-	scope :wants_twitter_follow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.unfollow_after > ?', -1) }
+	scope :wants_twitter_follow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.mass_follow IS TRUE') }
+	scope :wants_twitter_unfollow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.mass_unfollow IS TRUE') }
 
 	after_create :init_follow_prefs
 	

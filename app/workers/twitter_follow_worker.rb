@@ -13,8 +13,7 @@ class TwitterFollowWorker
 
           client = user.credential.twitter_client rescue nil
 
-          next if client.nil?
-          next if follow_prefs.rate_limited? || hashtags.empty?
+          next if client.nil? || follow_prefs.rate_limited? || hashtags.empty?
           
           usernames = []
 
