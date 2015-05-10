@@ -16,8 +16,8 @@ class Credential < ActiveRecord::Base
     client = Twitter::REST::Client.new do |c|
       c.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
       c.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
-      c.access_token        = !cred.twitter_oauth_token.nil? ? cred.twitter_oauth_token : cred.twitter_access_token
-      c.access_token_secret = !cred.twitter_oauth_token_secret.nil? ? cred.twitter_oauth_token_secret : cred.twitter_access_token_secret
+      c.access_token        = !twitter_oauth_token.nil? ? twitter_oauth_token : twitter_access_token
+      c.access_token_secret = !twitter_oauth_token_secret.nil? ? twitter_oauth_token_secret : twitter_access_token_secret
     end
 
     return client
