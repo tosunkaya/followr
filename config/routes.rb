@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :twitter_follow_preferences
-  resources :twitter_follows
-  resources :users
+  # resources :twitter_follow_preferences
+  # resources :twitter_follows
+  # resources :users
   require "sidekiq/web"
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
