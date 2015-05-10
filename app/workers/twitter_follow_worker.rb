@@ -11,6 +11,9 @@ class TwitterFollowWorker
           follow_prefs = user.twitter_follow_preference
           hashtags = follow_prefs.hashtags.split(',')
 
+          credentials = user.credential
+          next unless credentials.twitter_valid?
+
           client = user.credential.twitter_client rescue nil
 
           next if client.nil?
@@ -27,10 +30,11 @@ class TwitterFollowWorker
 
             # dont follow people we previously have
             entry = TwitterFollow.where(user: user, username: username)
+            puts "Follow Worker: #{user.email} - Previously followed #{entry.username}" if entry.present?
             next if entry.present?
 
-            client.follow(username)
             client.mute(username) # don't show their tweets in the feed
+            client.follow(username)
 
             TwitterFollow.follow(user, username)
             puts "Follow Worker: #{user.email}: #{username}"

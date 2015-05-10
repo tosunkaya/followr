@@ -2,14 +2,9 @@ class Credential < ActiveRecord::Base
 	belongs_to :user
 	validates_presence_of :user
 
-  before_save :validate_creds
+  before_save :twitter_valid?
 
   def self.create_with_omniauth(user, auth)
-    puts "creating credential with omniauth"
-    puts "\nUSER::#{user}"
-    puts "\nAuth:::#{auth}\n\n"
-    puts auth["extra"]["access_token"]
-    puts "\n done creating credential"
     c = Credential.new
     c.user = user
     c.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]
@@ -28,12 +23,16 @@ class Credential < ActiveRecord::Base
     return client
 	end
 
-  def validate_creds
+  def twitter_valid?
     validity = true
       begin
-        twitter_client.follow('!')
-      rescue Twitter::Error::BadRequest => e
-        validity = false if e.message.index('Bad Authentication data')
+        twitter_client.follow('plaintshirts')
+        twitter_client.unfollow('plaintshirts')
+      rescue Twitter::Error::Forbidden => e
+        if e.message == "Your credentials do not allow access to this resource"
+          puts "#{self.user.name} - Invalid Credentials" rescue ''
+          validity = false
+        end
       ensure
         return validity
       end
