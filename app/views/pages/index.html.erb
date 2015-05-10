@@ -1,6 +1,6 @@
 <div id="user_nav">  
   <% if current_user %>
-    Hey, <%= current_user.decorate.first_name %>!  
+    Hey, <%= current_user.twitter_username %>!  
     <%= link_to "Sign Out", signout_path %>  
   <% else %>  
     <%= link_to "Sign in with Twitter", "/auth/twitter" %>

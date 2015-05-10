@@ -16,25 +16,28 @@ class TwitterFollowWorker
           next if client.nil?
           next if follow_prefs.rate_limited? || hashtags.empty?
           
-          
-          twitter_users_passed = []
+          usernames = []
 
-          client.search("##{hashtags.sample}", lang: 'en').take(1000).collect.each do |tweet|
-            username = tweet.user.screen_name.to_s
+          hashtags.each do |hashtag|
+            tweets = client.search("##{hashtag}").collect
 
-            next if twitter_users_passed.include?(username)
-            twitter_users_passed << username
+            tweets.each do |tweet|
+              username = tweet.user.screen_name.to_s
 
-            # dont follow people we previously have
-            entry = TwitterFollow.where(user: user, username: username)
-            puts "Follow Worker: #{user.name} - Previously followed #{entry.first.username}" if entry.present?
-            next if entry.present?
+              next if usernames.include?(username)
+              usernames << username
 
-            client.mute(username) # don't show their tweets in the feed
-            client.follow(username)
+              # dont follow people we previously have
+              entry = TwitterFollow.where(user: user, username: username)
+              puts "Follow Worker: #{user.name} - Previously followed #{entry.first.username}" if entry.present?
+              next if entry.present?
 
-            TwitterFollow.follow(user, username)
-            puts "Follow Worker: #{user.name} - Following #{username}"
+              client.mute(username) # don't show their tweets in the feed
+              client.follow(username)
+
+              TwitterFollow.follow(user, username)
+              puts "Follow Worker: #{user.name} - Following #{username}"
+            end
           end
           
         rescue Twitter::Error::TooManyRequests => e

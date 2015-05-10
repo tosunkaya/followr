@@ -4,12 +4,20 @@ class User < ActiveRecord::Base
 	has_one :twitter_follow_preference
 
 	scope :wants_twitter_follow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.unfollow_after > ?', -1) }
+
+	after_create :init_follow_prefs
 	
 	def self.create_with_omniauth(auth)
 	    create! do |user|  
 	      user.twitter_uid = auth["uid"]  
+	      user.twitter_username = auth["info"]['nickname']
 	      user.name = auth["info"]["name"]
 	      Credential.create_with_omniauth(user, auth)
 	    end
-	end  
+	end
+
+	def init_follow_prefs
+		fp = TwitterFollowPreference.new(user: self)
+		twitter_follow_preference = fp
+	end
 end
