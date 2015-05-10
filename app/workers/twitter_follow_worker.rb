@@ -29,26 +29,25 @@ class TwitterFollowWorker
 
               # dont follow people we previously have
               entry = TwitterFollow.where(user: user, username: username)
-              puts "Follow Worker: #{user.name} - Previously followed #{entry.first.username}" if entry.present?
+              puts "Follow (#{user.name}) - Previously followed #{entry.first.username}" if entry.present?
               next if entry.present?
 
-              client.mute(username) # don't show their tweets in the feed
+              client.mute(username) # don't show their tweets in our feed
               client.follow(username)
 
               TwitterFollow.follow(user, username)
-              puts "Follow Worker: #{user.name} - Following #{username}"
+              puts "Follow (#{user.name}) - Following #{username} (Hashtag: #{hashtag})"
             end
           end
-          
         rescue Twitter::Error::TooManyRequests => e
+          # rate limited - set rate_limit_until timestamp
           sleep_time = (e.rate_limit.reset_in + 1.minute)/60 rescue 16
           follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
           follow_prefs.save
-          puts "Sleeping until: #{follow_prefs.rate_limit_until}: #{user.name}"
+          puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.name})"
         rescue Twitter::Error::Forbidden => e
-          puts "Twitter::Error::Forbidden: #{user.name}"
+          puts "Follow (#{user.name}) - Twitter::Error::Forbidden #{e}"
         rescue => e
-          puts "Follow Worker: ERROR:: \n #{e}"
           Airbrake.notify(e)
         end
       end
