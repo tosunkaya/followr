@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509022107) do
+ActiveRecord::Schema.define(version: 20150510044944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20150509022107) do
     t.string   "twitter_access_token_secret"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.string   "twitter_oauth_token"
+    t.string   "twitter_oauth_token_secret"
   end
 
   create_table "twitter_follow_preferences", force: :cascade do |t|
@@ -47,7 +49,6 @@ ActiveRecord::Schema.define(version: 20150509022107) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.string   "password"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "twitter_uid"
