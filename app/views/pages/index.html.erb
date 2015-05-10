@@ -1,5 +1,5 @@
 <div id="user_nav">  
-  <% if current_user %>  
+  <% if current_user %>
     Hey, <%= current_user.decorate.first_name %>!  
     <%= link_to "Sign Out", signout_path %>  
   <% else %>  
