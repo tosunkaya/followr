@@ -34,7 +34,7 @@ class TwitterFollowWorker
               client.mute(username) # don't show their tweets in our feed
               client.follow(username)
 
-              TwitterFollow.follow(user, username)
+              TwitterFollow.follow(user, username, hashtag)
               puts "Follow (#{user.name}) - Following #{username} (Hashtag: #{hashtag})"
             end
           end
