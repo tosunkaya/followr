@@ -17,3 +17,5 @@
 /tmp
 .todo
 .DS_Store
+.env
+

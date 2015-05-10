@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 ruby '2.1.3'
 
 gem 'rails', '4.2.1'
+gem 'sinatra', :require => nil
+
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
@@ -26,6 +28,7 @@ gem 'twitter'
 
 gem 'omniauth'
 gem 'omniauth-twitter'
+
 
 
 gem 'draper', '~> 1.3' # decorator
