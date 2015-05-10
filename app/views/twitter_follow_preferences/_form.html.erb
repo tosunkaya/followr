@@ -1,4 +1,4 @@
-<%= form_for(@twitter_follow_preference) do |f| %>
+<%= form_for current_user.twitter_follow_preference do |f| %>
   <% if @twitter_follow_preference.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@twitter_follow_preference.errors.count, "error") %> prohibited this twitter_follow_preference from being saved:</h2>
@@ -11,7 +11,14 @@
     </div>
   <% end %>
 
+  <label for='unfollow_after'>Unfollow user after how many days? (0 to never unfollow)</label><br>
+  <%= f.text_field :unfollow_after %><br>
+
+  <%= f.label :hashtags, value: "Hashtags to follow users from (comma separated)"  %><br>
+  <%= f.text_field :hashtags %><br>
+  <br>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Submit' %>
   </div>
 <% end %>

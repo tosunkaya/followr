@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 	has_many :twitter_follow
-	has_one :credential
-	has_one :twitter_follow_preference
+	has_one :credential, dependent: :destroy
+	has_one :twitter_follow_preference, dependent: :destroy
 
 	scope :wants_twitter_follow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.unfollow_after > ?', -1) }
 

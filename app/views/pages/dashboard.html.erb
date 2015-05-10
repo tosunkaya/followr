@@ -1,0 +1,3 @@
+Hey @<%= current_user.twitter_username %>!  <br>
+<%= link_to 'Follow Preferences', edit_twitter_follow_preference_path(current_user.id) %> <br>
+<%= link_to "Sign Out", signout_path %>

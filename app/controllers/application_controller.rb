@@ -5,11 +5,16 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :current_admin
 
   def current_user
-    User.find(session[:user_id]) if session[:user_id]
+    User.find(session[:user_id]) rescue nil if session[:user_id]
   end
 
   def current_admin
-  	User.find(session[:user_id]).twitter_uid == '52296517' if session[:user_id]
+    current_user && current_user.twitter_username == 'plaintshirts'
   end
+
+  def new_user?
+      current_user && !(current_user.created_at < 4.hours.ago) && current_user.twitter_follow_preference.hashtags.blank?
+  end
+
 
 end
