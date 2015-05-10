@@ -2,7 +2,7 @@ class TwitterUnfollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55) }
+  recurrence { hourly.minute_of_hour(0, 30) }
 
   def perform
     User.wants_twitter_follow.find_in_batches do |group|
@@ -22,13 +22,13 @@ class TwitterUnfollowWorker
             begin
               username = followed_user.username
               
-              client.unmute(username) rescue nil
+              client.unmute(username)
               client.unfollow(username)
               followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
 
-              puts "Unfollow Worker: #{user.email}: #{followed_user.username}"
+              puts "Unfollow Worker: #{user.name} - Unfollowing #{followed_user.username}"
             rescue Twitter::Error::Forbidden => e
-              puts "Twitter::Error::Forbidden: #{user.name}"
+              puts "Unfollow Worker: #{user.name} - Twitter::Error::Forbidden:"
             rescue Twitter::Error::NotFound => e
               followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
             rescue => e

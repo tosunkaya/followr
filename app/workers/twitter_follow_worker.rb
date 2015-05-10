@@ -2,7 +2,7 @@ class TwitterFollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55) }
+  recurrence { hourly.minute_of_hour(0, 10, 20, 30, 40, 50) }
 
   def perform
     User.wants_twitter_follow.find_in_batches do |group|
@@ -34,7 +34,7 @@ class TwitterFollowWorker
             client.follow(username)
 
             TwitterFollow.follow(user, username)
-            puts "Follow Worker: #{user.name}: #{username}"
+            puts "Follow Worker: #{user.name} - Following #{username}"
           end
           
         rescue Twitter::Error::TooManyRequests => e
