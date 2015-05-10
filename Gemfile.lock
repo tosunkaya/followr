@@ -204,6 +204,8 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
+    turbolinks (2.5.3)
+      coffee-rails
     twitter (5.14.0)
       addressable (~> 2.3)
       buftok (~> 0.2.0)
@@ -246,6 +248,7 @@ DEPENDENCIES
   sidekiq
   sidetiq
   sinatra
+  turbolinks
   twitter
   uglifier (>= 1.3.0)
   unicorn

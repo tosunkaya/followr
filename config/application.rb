@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Followr20
+module Followr
   class Application < Rails::Application
     config.autoload_paths += %W(#{config.root}/app/workers #{config.root}/lib #{config.root}/config/initializers)
     # Settings in config/environments/* take precedence over those specified here.

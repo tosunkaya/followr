@@ -5,6 +5,11 @@ class Credential < ActiveRecord::Base
   before_save :validate_creds
 
   def self.create_with_omniauth(user, auth)
+    puts "creating credential with omniauth"
+    puts "\nUSER::#{user}"
+    puts "\nAuth:::#{auth}\n\n"
+    puts auth["extra"]["access_token"]
+    puts "\n done creating credential"
     c = Credential.new
     c.user = user
     c.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]
