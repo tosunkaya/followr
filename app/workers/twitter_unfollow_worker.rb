@@ -1,6 +1,7 @@
 class TwitterUnfollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
+
   recurrence { hourly.minute_of_hour(0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55) }
 
   def perform
@@ -10,9 +11,6 @@ class TwitterUnfollowWorker
           follow_prefs = user.twitter_follow_preference
           unfollow_days = follow_prefs.unfollow_after
           users_to_unfollow = user.twitter_follow.where('followed_at <= ? AND UNFOLLOWED IS NOT TRUE', unfollow_days.to_i.days.ago)
-
-          credentials = user.credential
-          next if credentials.nil? || !credentials.twitter_valid?
           
           client = user.credential.twitter_client rescue nil
 
@@ -24,15 +22,15 @@ class TwitterUnfollowWorker
             begin
               username = followed_user.username
               
-              client.unfollow(username)
-
               client.unmute(username) rescue nil
-
-              followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
+              client.unfollow(username)
+              followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
 
               puts "Unfollow Worker: #{user.email}: #{followed_user.username}"
+            rescue Twitter::Error::Forbidden => e
+              puts "Twitter::Error::Forbidden: #{user.name}"
             rescue Twitter::Error::NotFound => e
-              followed_user.update_attributes({unfollowed: true, unfollowed_at:DateTime.now})
+              followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
             rescue => e
               Airbrake.notify(e)
             end

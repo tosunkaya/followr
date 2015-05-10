@@ -2,8 +2,6 @@ class Credential < ActiveRecord::Base
 	belongs_to :user
 	validates_presence_of :user
 
-  before_save :twitter_valid?
-
   def self.create_with_omniauth(user, auth)
     c = Credential.new
     c.user = user
@@ -13,31 +11,17 @@ class Credential < ActiveRecord::Base
   end
 
 	def twitter_client
+    return nil if [twitter_oauth_token, twitter_oauth_token_secret].include?(nil)
+
     client = Twitter::REST::Client.new do |c|
       c.consumer_key        = ENV['TWITTER_CONSUMER_KEY']
       c.consumer_secret     = ENV['TWITTER_CONSUMER_SECRET']
-      c.access_token        = !twitter_oauth_token.nil? ? twitter_oauth_token : twitter_access_token
-      c.access_token_secret = !twitter_oauth_token_secret.nil? ? twitter_oauth_token_secret : twitter_access_token_secret
+      c.access_token        = twitter_oauth_token
+      c.access_token_secret = twitter_oauth_token_secret
     end
 
     return client
 	end
-
-  def twitter_valid?
-    validity = true
-      begin
-        twitter_client.follow('plaintshirts')
-        twitter_client.unfollow('plaintshirts')
-      rescue Twitter::Error::Forbidden => e
-        if e.message == "Your credentials do not allow access to this resource"
-          puts "#{self.user.name} - Invalid Credentials" rescue ''
-          validity = false
-        end
-      ensure
-        return validity
-      end
-    validity
-  end
 
   def is_oauth?
     twitter_oauth_token.present? && twitter_oauth_token_secret.present?
