@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511000552) do
+ActiveRecord::Schema.define(version: 20150511010116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20150511000552) do
   end
 
   create_table "twitter_follow_preferences", force: :cascade do |t|
-    t.integer  "unfollow_after",   default: 0
+    t.integer  "unfollow_after",   default: 1
     t.text     "hashtags",         default: ""
     t.integer  "user_id"
     t.datetime "created_at",                                       null: false
