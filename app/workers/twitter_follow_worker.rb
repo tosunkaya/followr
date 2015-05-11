@@ -9,7 +9,7 @@ class TwitterFollowWorker
       group.each do |user|
         begin
           follow_prefs = user.twitter_follow_preference
-          hashtags = follow_prefs.hashtags.split(',').gsub('#','')
+          hashtags = follow_prefs.hashtags.gsub('#','').split(',')
 
           client = user.credential.twitter_client rescue nil
 
