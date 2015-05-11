@@ -2,7 +2,7 @@ class TwitterUnfollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(0, 30) }
+  recurrence { hourly.minute_of_hour(0, 30) } if Rails.env.production?
 
   def perform
     User.wants_twitter_unfollow.find_in_batches do |group|
@@ -10,7 +10,7 @@ class TwitterUnfollowWorker
         begin
           follow_prefs = user.twitter_follow_preference
           unfollow_days = follow_prefs.unfollow_after
-          users_to_unfollow = user.twitter_follow.where('followed_at <= ? AND UNFOLLOWED IS NOT TRUE AND unfollow_days > ?', unfollow_days.to_i.days.ago, 0)
+          users_to_unfollow = user.twitter_follow.where('followed_at <= ? AND UNFOLLOWED IS NOT TRUE', unfollow_days.to_i.days.ago)
           
           client = user.credential.twitter_client rescue nil
 

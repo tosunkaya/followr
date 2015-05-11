@@ -11,12 +11,20 @@
     </div>
   <% end %>
 
-  <label for='unfollow_after'>Unfollow user after how many days? (0 to never unfollow)</label><br>
+
+
+  <label for='unfollow_after'>Unfollow user after how many days?</label><br>
   <%= f.text_field :unfollow_after %><br>
 
-  <%= f.label :hashtags, value: "Hashtags to follow users from (comma separated)"  %><br>
-  #<%= f.text_field :hashtags %><br>
+  <%= f.label :hashtags, value: "Hashtags to follow users from (comma separated)" %><br>
+  #<%= f.text_field :hashtags, placeholder: "Ex: javascript,catgifs,shipfam" %><br>
   <br>
+
+  <%= f.label :mass_follow, value: "Mass follow users?" %>
+  <%= f.check_box :mass_follow %><br>
+
+  <%= f.label :mass_unfollow, value: "Mass unfollow users?" %>
+  <%= f.check_box :mass_unfollow %><br>
 
   <div class="actions">
     <%= f.submit 'Submit' %>
