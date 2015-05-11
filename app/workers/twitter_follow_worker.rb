@@ -22,6 +22,7 @@ class TwitterFollowWorker
 
             tweets.each do |tweet|
               username = tweet.user.screen_name.to_s
+              twitter_user_id = tweet.user.id
 
               next if usernames.include?(username)
               usernames << username
@@ -34,7 +35,7 @@ class TwitterFollowWorker
               client.mute(username) # don't show their tweets in our feed
               client.follow(username)
 
-              TwitterFollow.follow(user, username, hashtag)
+              TwitterFollow.follow(user, username, hashtag, twitter_user_id)
               puts "Follow (#{user.name}) - Following #{username} (Hashtag: #{hashtag})"
             end
           end
