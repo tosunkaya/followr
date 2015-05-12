@@ -15,7 +15,10 @@ class TwitterFollowWorker
 
           next if client.nil? || follow_prefs.rate_limited? || hashtags.empty?
 
-          Follower.compose(user) if DateTime.now.hour == 11 && Follower.can_compose_for?(user)
+          # track number of followers each day
+          if DateTime.now.in_time_zone(Rails.application.config.time_zone).hour == 23
+            Follower.compose(user) if Follower.can_compose_for?(user)
+          end
 
           usernames = []
 
