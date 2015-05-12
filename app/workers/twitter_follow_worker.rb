@@ -23,7 +23,7 @@ class TwitterFollowWorker
           usernames = []
 
           hashtags.each do |hashtag|
-            tweets = client.search("##{hashtag}").collect
+            tweets = client.search("##{hashtag}").collect.take(rand(20..300))
 
             tweets.each do |tweet|
               username = tweet.user.screen_name.to_s
