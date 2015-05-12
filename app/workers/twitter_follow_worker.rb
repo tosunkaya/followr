@@ -14,7 +14,9 @@ class TwitterFollowWorker
           client = user.credential.twitter_client rescue nil
 
           next if client.nil? || follow_prefs.rate_limited? || hashtags.empty?
-          
+
+          Follower.compose(user) if DateTime.now.hour == 11 && Follower.can_compose_for?(user)
+
           usernames = []
 
           hashtags.each do |hashtag|

@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 	has_many :twitter_follow
+	has_many :followers
+
 	has_one :credential, dependent: :destroy
 	has_one :twitter_follow_preference, dependent: :destroy
 
