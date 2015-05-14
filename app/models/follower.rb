@@ -26,10 +26,7 @@ class Follower < ActiveRecord::Base
 
   def self.can_compose_for?(user)
     last_entry = user.followers.order('created_at DESC').first rescue nil
-    if last_entry && last_entry.to_date == Date.today
-      return false 
-    else
-      return true
-    end
+    return false if last_entry && last_entry.created_at.to_date == Date.today
+    return true
   end
 end
