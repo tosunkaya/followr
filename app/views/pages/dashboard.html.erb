@@ -3,6 +3,7 @@ Hey @<%= current_user.twitter_username %>!  <br><br>
 <% if @followed_users_count > 0 %>
 	You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
 	<br>
+<% elsif @followed.present? %>
 	Your had <%= @followers %> followers the last time I checked
 <% else %> 
 	You haven't started following anyone yet
