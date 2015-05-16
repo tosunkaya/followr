@@ -1,3 +1,9 @@
-Hey @<%= current_user.twitter_username %>!  <br>
-<%= link_to 'Follow Preferences', edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %> <br>
-<%= link_to "Sign Out", signout_path %>
+Hey @<%= current_user.twitter_username %>!  <br><br>
+
+<% if @followed_users_count > 0 %>
+	You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
+	<br>
+	Your had <%= @followers %> followers the last time I checked
+<% else %> 
+	You haven't started following anyone yet
+<% end %>

@@ -8,12 +8,21 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class='nav'>
+    <% if !current_user %>
+      <%= link_to "Sign in with Twitter", "/auth/twitter" %>
+    <% else %>
+      <%= link_to 'Dashboard', dashboard_path %> | 
+      <%= link_to 'Follow Preferences', edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %> | 
+      <%= link_to "Sign Out", signout_path %>
+    <% end %>
+  </div>
 
-<% if flash[:notice] %>
-	<div class="notice"><%= flash[:notice] %></div> <br>
-<% end %>
+  <% if flash[:notice] %>
+    <div class="notice"><%= flash[:notice] %></div> <br>
+  <% end %>
 
-<%= yield %>
+  <%= yield %>
 
 </body>
 </html>
