@@ -9,12 +9,12 @@
 </head>
 <body>
   <div class='nav'>
-    <% if !current_user %>
-      <%= link_to "Sign in with Twitter", "/auth/twitter" %>
-    <% else %>
+    <% if current_user %>
       <%= link_to 'Dashboard', dashboard_path %> | 
       <%= link_to 'Follow Preferences', edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %> | 
       <%= link_to "Sign Out", signout_path %>
+    <% else %>
+      <%= link_to "Sign in with Twitter", "/auth/twitter" %>
     <% end %>
   </div>
 
