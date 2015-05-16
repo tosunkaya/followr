@@ -14,6 +14,6 @@ class PagesController < ApplicationController
 
 		@followed_users_count = current_user.twitter_follow.count
 		@began_following_users = current_user.twitter_follow.first.created_at.to_date.strftime('%m/%d/%y') rescue nil if @followed_users_count > 0
-		@followers = current_user.followers.last.count if current_user.followers
+		@followers = current_user.followers.last.count if current_user.followers.present?
 	end
 end
