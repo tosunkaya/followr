@@ -37,11 +37,11 @@ class TwitterFollowWorker
               puts "Follow (#{user.name}) - Previously followed #{entry.first.username}" if entry.present?
               next if entry.present?
 
-              client.mute(username) # don't show their tweets in our feed
-              client.follow(username)
+              muted = client.mute(username) # don't show their tweets in our feed
+              followed = client.follow(username)
 
               TwitterFollow.follow(user, username, hashtag, twitter_user_id)
-              puts "Follow (#{user.name}) - Following #{username} (Hashtag: #{hashtag})"
+              puts "Follow (#{user.name}) - Following#{' and muted' if muted} #{username} (Hashtag: #{hashtag})" if followed
             end
           end
         rescue Twitter::Error::TooManyRequests => e
