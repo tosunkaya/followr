@@ -13,7 +13,7 @@ class TwitterFollowWorker
 
           client = user.credential.twitter_client rescue nil
 
-          next if client.nil? || follow_prefs.rate_limited? || hashtags.empty?
+          next if client.nil? || user.rate_limited? || hashtags.empty?
 
           # track number of followers each day
           # if DateTime.now.in_time_zone(Rails.application.config.time_zone).hour >= 23

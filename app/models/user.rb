@@ -23,4 +23,8 @@ class User < ActiveRecord::Base
 		fp = TwitterFollowPreference.new(user: self)
 		twitter_follow_preference = fp
 	end
+
+	def rate_limited?
+		twitter_follow_preference.rate_limit_until > DateTime.now
+	end
 end
