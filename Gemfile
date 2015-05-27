@@ -23,6 +23,7 @@ gem 'sidekiq'
 gem 'sidetiq'
 
 gem 'dotenv-rails'
+gem 'rails_12factor', group: :production
 
 gem 'airbrake'
 
