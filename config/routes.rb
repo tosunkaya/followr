@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   get '/dashboard' => 'pages#dashboard', as: 'dashboard'
 
   get "/auth/:provider/callback" => "sessions#create"
-  
+  get 'auth/failure' => 'pages#index'
+
   get "/logout" => "sessions#destroy", :as => :signout
 
 end
