@@ -7,4 +7,8 @@ class TwitterFollowPreference < ActiveRecord::Base
 	def rate_limited?
 		rate_limit_until > DateTime.now
 	end
+
+	def want_mass_follow?
+		mass_follow
+	end
 end

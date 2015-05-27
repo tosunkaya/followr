@@ -1,10 +1,10 @@
-@<%= current_user.twitter_username %><br><br>
+<%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>, <a href='https://twitter.com/<%= current_user.twitter_username %>'>@<%= current_user.twitter_username %></a><br><br>
+
+Twitter Status: <span class='<%= current_user.twitter_check? ? "alert alert-success" : "alert alert-danger" %>'><%= current_user.twitter_check? ? "Following" : "Awaiting user action" %></span><br><br>
 
 <% if @followed_users_count > 0 %>
 	You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
 	<br>
-<% elsif @followed.present? %>
-	Your had <%= @followers %> followers the last time I checked
-<% else %> 
-	Our robots haven't started following anyone for you yet. Have you set everything up?
+<% else %>
+	<p>Hey man, our bots haven't started following anyone for you yet. Have you set everything up? Check your preferences.</p>
 <% end %>

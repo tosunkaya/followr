@@ -14,12 +14,9 @@
 <body>
   <div class='nav'>
     <% if current_user %>
-      <a class="btn btn-lg btn-primary" href="/dashboard">
-      <i style='padding-right: 10px;' class="glyphicon glyphicon-user pull-left"></i><span>Dashboard</span></a> 
-      <a class="btn btn-lg btn-primary" href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">
-      <i style='padding-right: 10px;' class="glyphicon glyphicon-user pull-left"></i><span>Follow Preferences</span></a> 
-      <a class="btn btn-lg btn-primary" href="/logout">
-      <i style='padding-right: 10px;' class="glyphicon glyphicon-user pull-left"></i><span>Sign Out</span></a> 
+      <a href="/dashboard">Home</a> |
+      <a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Follow Preferences</a> |
+      <a href="/logout">Logout</a> 
     <% end %>
   </div>
 

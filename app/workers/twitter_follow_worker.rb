@@ -2,7 +2,7 @@ class TwitterFollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(0, 10, 20, 30, 40, 50) } if Rails.env.production?
+  recurrence { hourly.minute_of_hour(0, 5, 10, 15,  20, 25,  30, 35,  40, 45, 50, 55) } if Rails.env.production?
 
   def perform
     User.wants_twitter_follow.find_in_batches do |group|
@@ -13,11 +13,11 @@ class TwitterFollowWorker
 
           client = user.credential.twitter_client rescue nil
 
-          next if client.nil? || user.rate_limited? || hashtags.empty?
+          next if !user.twitter_check? || user.rate_limited?
 
           # track number of followers each day
           # if DateTime.now.in_time_zone(Rails.application.config.time_zone).hour >= 23
-            Follower.compose(user) if Follower.can_compose_for?(user)
+            # Follower.compose(user) if Follower.can_compose_for?(user)
           # end
 
           usernames = []

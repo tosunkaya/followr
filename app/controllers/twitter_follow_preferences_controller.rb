@@ -14,7 +14,7 @@ class TwitterFollowPreferencesController < ApplicationController
 
     respond_to do |format|
       if @twitter_follow_preference.save
-        format.html { redirect_to @twitter_follow_preference, notice: 'Twitter follow preference was successfully created.' }
+        format.html { redirect_to @twitter_follow_preference, notice: 'Preferences created.' }
         format.json { render :show, status: :created, location: @twitter_follow_preference }
       else
         format.html { render :new }
@@ -28,7 +28,7 @@ class TwitterFollowPreferencesController < ApplicationController
   def update
     respond_to do |format|
       if @twitter_follow_preference.update(twitter_follow_preference_params)
-        format.html { redirect_to dashboard_path, notice: 'Twitter follow preference was successfully updated.' }
+        format.html { redirect_to dashboard_path, notice: 'Preferences updated.' }
         format.json { render :show, status: :ok, location: dashboard_path }
       else
         format.html { render :edit }
@@ -59,6 +59,6 @@ class TwitterFollowPreferencesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def twitter_follow_preference_params
-      params.require(:twitter_follow_preference).permit(:unfollow_after, :hashtags)
+      params.require(:twitter_follow_preference).permit(:unfollow_after, :hashtags, :mass_follow, :mass_unfollow)
     end
 end

@@ -1,3 +1,11 @@
+.nav {
+  padding-bottom: 10px;
+}
+/*login button on home page*/
+.nav-login {
+  margin: 30px;
+}
+
 a:hover, a:visited {
   color: black !important;
   background-color: white !important;
@@ -6,9 +14,8 @@ a:hover, a:visited {
 .btn:hover {
   background-color: default !important;
 }
-.nav-login {
-  margin: 30px;
-}
+
+
 .timeline {
   list-style: none;
   padding: 20px 0 20px;
