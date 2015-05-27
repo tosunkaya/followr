@@ -1,0 +1,7 @@
+<h4> Registered users: <%= @user.count %> </h4>
+<ul>
+  <% @user.each do |user| %>
+    <li> <%= user.twitter_username %> </li>
+    <li> Set up? <%= user.twitter_check? %> </li>
+  <% end %>
+</ul>
