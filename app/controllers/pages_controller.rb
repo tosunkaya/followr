@@ -18,7 +18,7 @@ class PagesController < ApplicationController
 	end
 
 	def admin
-		return unless current_admin
+		redirect_to root_path and return unless current_admin
 
 		@users = User.all
 	end

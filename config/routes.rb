@@ -11,8 +11,11 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web, at: "/sidekiq"
 
-
   root to: 'pages#index'
+
+  if Rails.env.production?
+    get '404', :to => 'pages#index'
+  end
 
   get '/dashboard' => 'pages#dashboard', as: 'dashboard'
   get '/admin' => 'pages#admin', as: 'admin'
