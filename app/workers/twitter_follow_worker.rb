@@ -34,7 +34,6 @@ class TwitterFollowWorker
 
               # dont follow people we previously have
               entry = TwitterFollow.where(user: user, username: username)
-              puts "Follow (#{user.name}) - Previously followed #{entry.first.username}" if entry.present?
               next if entry.present?
 
               muted = client.mute(username) # don't show their tweets in our feed
@@ -51,7 +50,7 @@ class TwitterFollowWorker
           follow_prefs.save
           puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.name})"
         rescue Twitter::Error::Forbidden => e
-          puts "Follow (#{user.name}) - Twitter::Error::Forbidden #{e}"
+          Airbrake.notify(e)
         rescue => e
           Airbrake.notify(e)
         end
