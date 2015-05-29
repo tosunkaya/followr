@@ -39,8 +39,8 @@ class TwitterFollowWorker
               muted = client.mute(username) # don't show their tweets in our feed
               followed = client.follow(username)
 
-              TwitterFollow.follow(user, username, hashtag, twitter_user_id)
-              puts "Follow (#{user.name}) - Following#{' and muted' if muted} #{username} (Hashtag: #{hashtag})" if followed
+              TwitterFollow.follow(user, username, hashtag, twitter_user_id) if followed
+              puts "Follow (#{user.twitter_username}) - #{username} | Hashtag: #{hashtag}" if followed
             end
           end
         rescue Twitter::Error::TooManyRequests => e
@@ -48,7 +48,7 @@ class TwitterFollowWorker
           sleep_time = (e.rate_limit.reset_in + 1.minute)/60 rescue 16
           follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
           follow_prefs.save
-          puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.name})"
+          puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.twitter_username})"
         rescue Twitter::Error::Forbidden => e
           Airbrake.notify(e)
         rescue => e
