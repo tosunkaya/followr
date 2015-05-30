@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :twitter_follow_preferences, :only => [:edit, :update]
 
-  # resources :twitter_follows
+  resources :twitter_follows
   # resources :users
   require "sidekiq/web"
 
@@ -24,5 +24,8 @@ Rails.application.routes.draw do
   get 'auth/failure' => 'pages#index'
 
   get "/logout" => "sessions#destroy", :as => :signout
+
+
+  post '/unfollow' => 'pages#unfollow'
 
 end

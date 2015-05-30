@@ -1,5 +1,6 @@
 class TwitterFollowsController < ApplicationController
   before_action :set_twitter_follow, only: [:show, :edit, :update, :destroy]
+  before_action :auth_user
 
   # GET /twitter_follows
   # GET /twitter_follows.json
@@ -19,6 +20,7 @@ class TwitterFollowsController < ApplicationController
 
   # GET /twitter_follows/1/edit
   def edit
+    
   end
 
   # POST /twitter_follows
@@ -62,9 +64,12 @@ class TwitterFollowsController < ApplicationController
   end
 
   private
+    def auth_user
+      redirect_to root_url if !current_user || current_user.twitter_follow != @twitter_follow
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_twitter_follow
-      @twitter_follow = TwitterFollow.find(params[:id])
+      @twitter_follow = current_user.twitter_follow
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

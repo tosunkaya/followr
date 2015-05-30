@@ -1,4 +1,26 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_twitter_follow_path(@twitter_follow) %> |
-<%= link_to 'Back', twitter_follows_path %>
+<table>
+  <thead>
+    <tr>
+      <td><h4>Username</h4></td>
+      <td><h4>Hashtag</h4></td>
+      <td><h4>Followed</h4></td>
+      <td><h4>Unfollowed</h4></td>
+      <td><h4>Unfollow User?</h4></td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @twitter_follow.each do |followed_user| %>
+      <tr>
+        <td id='username'><a href="https://twitter.com/<%= followed_user.username %>"><%= followed_user.username %></a></td>
+        <td><%= followed_user.hashtag %></td>
+        <td><%= followed_user.followed_at.strftime("%m/%d/%y") %></td>
+        <td><%= "Unfollowed: #{followed_user.unfollowed_at.strftime("%m/%d/%y")}" rescue 'Still following' %></td>
+        <td><button id='unfollow-btn' class='btn btn-error'>Unfollow</button></td>
+      </tr> 
+    <% end %>
+  </tbody>
+
+
+</table>

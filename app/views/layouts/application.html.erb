@@ -16,6 +16,7 @@
     <% if current_user %>
       <a href="/dashboard">Home</a> |
       <a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Preferences</a> |
+      <a href="/twitter_follows/<%= current_user.id %>">Following</a> |
       <a href="/logout">Logout</a> 
     <% end %>
   </div>
