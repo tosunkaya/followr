@@ -2,7 +2,7 @@ class TwitterFollowPreference < ActiveRecord::Base
 	belongs_to :user
 
 	validates_presence_of :user
-	validates :unfollow_after, inclusion: { in: [1, 2] }
+	# validates :unfollow_after, inclusion: { in: [1, 2] }
 
 	def rate_limited?
 		rate_limit_until > DateTime.now
