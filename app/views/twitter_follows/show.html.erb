@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @twitter_follow.last(500).each do |followed_user| %>
+    <% @twitter_follow.last(200).each do |followed_user| %>
       <tr>
         <td id='username'><a href="https://twitter.com/<%= followed_user.username %>"><%= followed_user.username %></a></td>
         <td><%= followed_user.hashtag %></td>
