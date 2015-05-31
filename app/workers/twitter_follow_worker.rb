@@ -16,8 +16,8 @@ class TwitterFollowWorker
           next if !user.twitter_check? || user.rate_limited?
 
 
-          followed_in_last_hour = user.twitter_follow.where('followed_at > ?' 1.hour.ago) 
-          followed_in_last_day = user.twitter_follow.where('followed_at > ?' 24.hours.ago)
+          followed_in_last_hour = user.twitter_follow.where('followed_at > ?', 1.hour.ago) 
+          followed_in_last_day = user.twitter_follow.where('followed_at > ?', 24.hours.ago)
 
           next if followed_in_last_hour.count >= 30 || followed_in_last_day >= 720
 
