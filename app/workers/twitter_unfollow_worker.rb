@@ -14,8 +14,8 @@ class TwitterUnfollowWorker
           
           client = user.credential.twitter_client rescue nil
 
-          next if client.nil?
-          next if users_to_unfollow.empty?
+          next if client.nil? || users_to_unfollow.empty?
+          next unless user.can_twitter_unfollow?
 
           users_to_unfollow.each do |followed_user|
             begin
