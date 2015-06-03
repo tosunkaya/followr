@@ -19,7 +19,7 @@ class TwitterFollowWorker
           followed_in_last_hour = user.twitter_follow.where('followed_at > ?', 1.hour.ago) 
           followed_in_last_day = user.twitter_follow.where('followed_at > ?', 24.hours.ago)
 
-          next if followed_in_last_hour.count >= 30 || followed_in_last_day >= 720
+          next if followed_in_last_hour.count >= 30 || followed_in_last_day.count >= 720
 
           # track number of followers each day
           # if DateTime.now.in_time_zone(Rails.application.config.time_zone).hour >= 23
