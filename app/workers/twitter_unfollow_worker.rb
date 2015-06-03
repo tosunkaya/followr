@@ -2,7 +2,7 @@ class TwitterUnfollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  # recurrence { hourly.minute_of_hour(0, 30) } if Rails.env.production?
+  recurrence { hourly.minute_of_hour(30) } if Rails.env.production?
 
   def perform
     User.wants_twitter_unfollow.find_in_batches do |group|
