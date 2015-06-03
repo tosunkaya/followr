@@ -2,7 +2,15 @@ class SessionsController < ApplicationController
 	
 	def create
       auth = request.env["omniauth.auth"]
-      user = User.find_by_twitter_uid(auth["uid"]) || User.create_with_omniauth(auth)
+      user = User.find_by_twitter_uid(auth["uid"]) 
+      if user
+      	c = user.credential
+      	c.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]
+	    c.twitter_oauth_token_secret = auth["extra"]["access_token"].params[:oauth_token_secret]
+	    c.save!
+      else
+      	User.create_with_omniauth(auth)
+      end
       session[:user_id] = user.id
       redirect_to dashboard_path
 	end
