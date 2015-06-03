@@ -1,6 +1,6 @@
 <%= form_for @twitter_follow_preference do |f| %>
   <% if @twitter_follow_preference.errors.any? %>
-    <%= Airbrake.notify(@twitter_follow_preference.errors.full_messages) %>
+    <% Airbrake.notify(@twitter_follow_preference.errors.full_messages) %>
   <% end %>
 
 
