@@ -46,6 +46,8 @@ class TwitterFollowWorker
           puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.twitter_username})"
         rescue Twitter::Error::Forbidden => e
           Airbrake.notify(e)
+        rescue Twitter::Error::Unauthorized => e
+          follow_prefs.update_attributes(mass_follow: false, mass_unfollow: false)
         rescue => e
           Airbrake.notify(e)
         end
