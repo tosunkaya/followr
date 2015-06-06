@@ -5,6 +5,6 @@ Twitter Status: <span class='<%= current_user.twitter_check? ? "alert alert-succ
 <% if @followed_users_count > 0 %>
 	You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
 	<br>
-<% else %>
-	<p>Hey man, our bots haven't started following anyone for you yet. Have you set everything up? Check your preferences.</p>
+<% elsif !current_user.twitter_check? %>
+	<p>Hey man, it looks like you still need to set things up. Check your preferences.</p>
 <% end %>
