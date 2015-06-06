@@ -26,7 +26,7 @@ class Follower < ActiveRecord::Base
 
   def self.can_compose_for?(user)
     last_entry = user.followers.order('created_at DESC').first rescue nil
-    return false if last_entry.present? && last_entry.created_at.to_date == Date.today.in_time_zone(Rails.application.config.time_zone)
+    return false if last_entry.present? && last_entry.created_at.to_date == Date.today.in_time_zone(Rails.application.config.time_zone).to_date
     true
   end
 end

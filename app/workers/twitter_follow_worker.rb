@@ -15,6 +15,11 @@ class TwitterFollowWorker
 
           next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
 
+          # keep count of followers daily
+          if DateTime.now.hour = 6 # 11pm pst
+            Follower.compose(user) if Follower.can_compose_for?(user)
+          end
+
           usernames = []
 
           hashtags.each do |hashtag|
