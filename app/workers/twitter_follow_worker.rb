@@ -16,8 +16,12 @@ class TwitterFollowWorker
           next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
 
           # keep count of followers daily
-          if DateTime.now.hour = 6 # 11pm pst
-            Follower.compose(user) if Follower.can_compose_for?(user)
+          begin
+            if DateTime.now.in_time_zone.hour = 23 # 11pm pst
+              Follower.compose(user) if Follower.can_compose_for?(user)
+            end
+          rescue => e
+            Airbrake.notify(e)
           end
 
           usernames = []
