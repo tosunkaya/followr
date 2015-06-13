@@ -2,9 +2,14 @@ class TwitterFollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(0, 5, 10, 15, 20, 25,  30, 35,  40, 45, 50, 55) } if Rails.env.production?
+  recurrence { hourly.minute_of_hour(0, 5, 10, 15, 20, 25,  30, 35,  40, 45, 50, 55) }
 
   def perform
+    unless ENV['WORKERS_DRY_RUN'].blank?
+      puts "TwitterFollowWorker run but returning due to WORKERS_DRY_RUN env variable"
+      return
+    end
+
     User.wants_twitter_follow.find_in_batches do |group|
       group.each do |user|
         begin
