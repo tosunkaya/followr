@@ -15,6 +15,7 @@ class TwitterFollowWorker
 
           next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
 
+          # TODO this doesn't work
           # keep count of followers daily
           begin
             if DateTime.now.in_time_zone.hour = 23 # 11pm pst
@@ -44,7 +45,7 @@ class TwitterFollowWorker
               followed = client.follow(username)
 
               TwitterFollow.follow(user, username, hashtag, twitter_user_id) if followed
-              puts "Follow (#{user.twitter_username}) - #{username} | Hashtag: #{hashtag}" if followed
+              # puts "Follow (#{user.twitter_username}) - #{username} | Hashtag: #{hashtag}" if followed
             end
           end
         rescue Twitter::Error::TooManyRequests => e
@@ -52,7 +53,7 @@ class TwitterFollowWorker
           sleep_time = (e.rate_limit.reset_in + 1.minute)/60 rescue 16
           follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
           follow_prefs.save
-          puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.twitter_username})"
+          # puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.twitter_username})"
         rescue Twitter::Error::Forbidden => e
           Airbrake.notify(e)
         rescue Twitter::Error::Unauthorized => e

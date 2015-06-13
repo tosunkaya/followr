@@ -25,9 +25,9 @@ class TwitterUnfollowWorker
               unfollowed = client.unfollow(username)
               followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now }) if unfollowed.present?
 
-              puts "Unfollow (#{user.twitter_username}) - Unfollowing #{followed_user.username}"
+              # puts "Unfollow (#{user.twitter_username}) - Unfollowing #{followed_user.username}"
             rescue Twitter::Error::Forbidden => e
-              puts "Unfollow (#{user.twitter_username}) - Twitter::Error::Forbidden #{e}"
+              # puts "Unfollow (#{user.twitter_username}) - Twitter::Error::Forbidden #{e}"
             rescue Twitter::Error::NotFound => e
               Airbrake.notify(e)
               # followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
