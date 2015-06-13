@@ -61,6 +61,12 @@ WORKERS_DRY_RUN=1
 While `.env` should contain:
 
 ```shell
+# Postgres setup
+APP_DB=""
+APP_DB_USER=""
+APP_DB_PASSWORD=""
+APP_DB_HOST="localhost"
+
 # Twitter application key/secret
 TWITTER_CONSUMER_KEY=""
 TWITTER_CONSUMER_SECRET=""
