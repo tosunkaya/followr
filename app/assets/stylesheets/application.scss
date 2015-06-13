@@ -16,3 +16,14 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+header.jumbotron {
+  text-align: center;
+  background: image-url('header.jpg') no-repeat bottom right;
+  background-size: cover;
+  margin-bottom: 0;
+  
+  h1 {
+    font-family: 'Pacifico', cursive;
+  }
+}

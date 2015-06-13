@@ -2,27 +2,40 @@
 <html>
 <head>
   <title>Followr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class='nav'>
-    <% if current_user %>
-      <a href="/dashboard">Home</a> |
-      <a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Preferences</a> |
-      <a href="/twitter_follows/<%= current_user.id %>">Following</a> |
-      <a href="/logout">Logout</a> 
-    <% end %>
-  </div>
 
-
-  <% if flash[:notice] %>
-    <div class="notice"><%= flash[:notice] %></div> <br>
+  <% unless current_user %>
+  <header class="jumbotron">
+    <div class="container">
+      <h1>Followr</h1>
+      <p class="lead">Get more Twitter followers. Automatically.</p>
+      <p><a class="btn btn-primary btn-lg" href="/auth/twitter" role="button">Sign in with Twitter</a></p>
+    </div>
+  </header>
   <% end %>
 
-  <div class='main'>
+  <div class="container">
+    <% if current_user %>
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="/dashboard">Home</a></li>
+        <li role="presentation"><a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Preferences</a></li>
+        <li role="presentation"><a href="/twitter_follows/<%= current_user.id %>">Following</a></li>
+        <li role="presentation"><a href="/logout">Logout</a></li>
+    </ul>
+
+      <% if flash[:notice] %>
+        <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
+      <% end %>
+    <% end %>
+
     <%= yield %>
+
   </div>
 
   <% if Rails.env.production? %>
