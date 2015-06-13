@@ -17,13 +17,13 @@ class TwitterFollowWorker
 
           # TODO this doesn't work
           # keep count of followers daily
-          begin
-            if DateTime.now.in_time_zone.hour = 23 # 11pm pst
-              Follower.compose(user) if Follower.can_compose_for?(user)
-            end
-          rescue => e
-            Airbrake.notify(e)
-          end
+          # begin
+          #   if DateTime.now.in_time_zone.hour = 23 # 11pm pst
+          #     Follower.compose(user) if Follower.can_compose_for?(user)
+          #   end
+          # rescue => e
+          #   Airbrake.notify(e)
+          # end
 
           usernames = []
 
@@ -55,9 +55,12 @@ class TwitterFollowWorker
           follow_prefs.save
           # puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.twitter_username})"
         rescue Twitter::Error::Forbidden => e
-          Airbrake.notify(e)
+          # Airbrake.notify(e)
+          puts e
         rescue Twitter::Error::Unauthorized => e
           follow_prefs.update_attributes(mass_follow: false, mass_unfollow: false)
+          puts e
+          Airbrake.notify(e)
         rescue => e
           Airbrake.notify(e)
         end
