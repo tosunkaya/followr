@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.3'
+ruby '2.2.2'
 
 gem 'rails', '4.2.1'
 gem 'sinatra', :require => nil
@@ -22,7 +22,6 @@ gem 'redis'
 gem 'sidekiq'
 gem 'sidetiq'
 
-gem 'dotenv-rails'
 gem 'rails_12factor', group: :production
 
 gem 'airbrake'
@@ -32,12 +31,27 @@ gem 'twitter'
 gem 'omniauth'
 gem 'omniauth-twitter'
 
-
 gem 'attr_encrypted'
 
 gem 'draper', '~> 1.3' # decorator
 
+gem 'bootstrap-sass', '~> 3.3.4'
+
 group :development, :test do 
+  gem 'byebug'
+
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console', '~> 2.0'
+  gem "better_errors"
+  gem "binding_of_caller"
+
+  gem 'pry-rails'
+  gem 'pry-stack_explorer'
+  gem 'pry-byebug', '~> 1.3.3'
+
+  # Remote debugging – connect with pry-remote command
+  gem 'pry-remote'
+
 	gem 'pry'
 	gem 'pry-nav'
 	gem 'rspec-rails', '~> 3.0'
