@@ -38,9 +38,6 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-    <% if flash[:notice] %>
-      <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
-    <% end %>
   <% else %>
   <header class="jumbotron">
     <div class="container">
@@ -52,7 +49,9 @@
   <% end %>
 
   <div class="container">
-
+    <% if flash[:notice] %>
+      <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
+    <% end %>
 
     <%= yield %>
 
