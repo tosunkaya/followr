@@ -27,7 +27,7 @@
           <% 
             {
               "Preferences" => edit_twitter_follow_preference_path(current_user.twitter_follow_preference),
-              "Following" => twitter_follows_path
+              "Activity" => twitter_follows_path
             }.each do |link, path| %>
 
             <li<%=' class="active"'.html_safe if current_page?(path) %>>

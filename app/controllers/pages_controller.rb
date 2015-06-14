@@ -17,20 +17,4 @@ class PagesController < ApplicationController
 
 		@users = User.all
 	end
-
-	def unfollow
-		begin
-			client = current_user.credential.twitter_client rescue nil
-			return if client.nil?
-			followed_user = current_user.twitter_follows.where(username: params[:username], unfollowed: false)
-			return if !followed_user
-			unfollowed = client.unfollow(params[:username])
-            followed_user.first.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now }) if unfollowed.present?
-		rescue => e
-			puts e
-		ensure
-			render json: nil, status: :ok
-		end
-	end
-
 end

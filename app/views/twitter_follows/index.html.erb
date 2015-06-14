@@ -14,17 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @twitter_follows.each do |followed_user| %>
-        <tr>
-          <td id='username'><a href="https://twitter.com/<%= followed_user.username %>"><%= followed_user.username %></a></td>
-          <td><%= followed_user.hashtag %></td>
-          <td><%= followed_user.followed_at.strftime("%m/%d/%y") %></td>
-          <td><%= "Unfollowed: #{followed_user.unfollowed_at.strftime("%m/%d/%y")}" rescue 'Still following' %></td>
-          <td><button id='unfollow-btn' class='btn btn-error'>Unfollow</button></td>
-        </tr> 
-      <% end %>
+      <%= render partial: 'twitter_follow', collection: @twitter_follows %>
     </tbody>
-
-
   </table>
 <% end %>
