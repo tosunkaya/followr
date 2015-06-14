@@ -3,6 +3,8 @@ class TwitterFollow < ActiveRecord::Base
 	validates_presence_of :username
  	validates_uniqueness_of :user_id, :scope => :username
 
+ 	scope :recent, ->(limit = 200) { order('created_at desc').limit(200) }
+
 	def self.follow(user, username, hashtag, twitter_user_id)
 	    entry = TwitterFollow.new
 	    entry.user_id = user.id

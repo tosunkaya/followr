@@ -1,10 +1,19 @@
-<%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>, <a href='https://twitter.com/<%= current_user.twitter_username %>'>@<%= current_user.twitter_username %></a><br><br>
-
-Twitter Status: <span class='<%= current_user.twitter_check? ? "alert alert-success" : "alert alert-danger" %>'><%= current_user.twitter_check? ? "Following" : "Awaiting user action" %></span><br><br>
-
-<% if @followed_users_count > 0 %>
-	You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
-	<br>
-<% elsif !current_user.twitter_check? %>
-	<p>Hey man, it looks like you still need to set things up. Check your preferences.</p>
+<% if current_user.twitter_check? %>
+    <% if @followed_users_count > 0 %>
+        You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
+    <% else %>
+        <div class="alert alert-info" role="alert">
+            <h4>Looking good!</h4>
+            <p>Just relax now, we'll start following some people for you shortly.</p>
+        </div>
+    <% end %>
+<% else %>
+    <div class="alert alert-info" role="alert">
+        <h4>Hey man!</h4>
+        <p>It looks like you still need to set things up.<br>Just check your preferences so that we can start following some awesome people for you.
+        </p>
+        <p>
+            <a href="<%= edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %>" class="btn btn-default">Set your preferences</a>
+        </p>
+    </div>
 <% end %>

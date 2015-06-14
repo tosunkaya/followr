@@ -1,4 +1,0 @@
-module SessionsHelper
-
-	
-end

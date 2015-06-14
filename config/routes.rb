@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   resources :twitter_follow_preferences, :only => [:edit, :update]
 
-  resources :twitter_follows
-  # resources :users
+  resources :twitter_follows, :only => [:index]
+
   require "sidekiq/web"
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get '/admin' => 'pages#admin', as: 'admin'
 
   get "/auth/:provider/callback" => "sessions#create"
-  get 'auth/failure' => 'pages#index'
+  get '/auth/failure' => 'pages#index'
 
   get "/logout" => "sessions#destroy", :as => :signout
 

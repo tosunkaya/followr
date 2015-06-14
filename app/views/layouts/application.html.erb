@@ -27,7 +27,7 @@
           <% 
             {
               "Preferences" => edit_twitter_follow_preference_path(current_user.twitter_follow_preference),
-              "Following" => twitter_follow_path(current_user)
+              "Following" => twitter_follows_path
             }.each do |link, path| %>
 
             <li<%=' class="active"'.html_safe if current_page?(path) %>>
@@ -61,7 +61,13 @@
 
   <div class="container">
     <% if flash[:notice] %>
-      <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+        <p><%= flash[:notice] %></p>
+      </div>
     <% end %>
 
     <%= yield %>
