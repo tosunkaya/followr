@@ -1,3 +1,53 @@
-<h1>Preferences</h1>
+<%= form_for @twitter_follow_preference, html: { class: 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend>Preferences</legend>
 
-<%= render 'form' %>
+    <% if @twitter_follow_preference.errors.any? %>
+      <% Airbrake.notify(@twitter_follow_preference.errors.full_messages) %>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :unfollow_after, "Days before unfollow", class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :unfollow_after, class: 'form-control' %>
+        <span class="help-block">Unfollow user after how many days? (2 maximum, 1 recommended)</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :hashtags, value: "Hashtags", class: "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <span class="input-group-addon">#</span>
+          <%= f.text_field :hashtags, placeholder: "javascript,catgifs,shipit", class: 'form-control' %>
+        </div>
+        <span class="help-block">Hashtags to follow users from (5 maximum, comma separated)</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <%= f.label :mass_follow do %>
+            <%= f.check_box :mass_follow %> Follow users?
+          <% end %>
+        </div>
+
+        <div class="checkbox">
+          <%= f.label :mass_unfollow do %>
+            <%= f.check_box :mass_unfollow %> Unfollow users?
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <%= f.submit 'Update preferences', class: 'btn btn-primary' %>
+      </div>
+    </div>
+
+
+  </fieldset>
+<% end %>
+

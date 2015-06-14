@@ -1,0 +1,29 @@
+<tr id="follow-<%= twitter_follow.id %>">
+  <td>
+    <a href="https://twitter.com/<%= twitter_follow.username %>" target="_blank">
+      @<%= twitter_follow.username %>
+    </a>
+  </td>
+  <td><span class="label label-default">#<%= twitter_follow.hashtag %></span></td>
+  <td><%= twitter_follow.followed_at.to_date.to_s(:short) %></td>
+  <td>
+    <% if twitter_follow.unfollowed %>
+      <%= twitter_follow.unfollowed_at.to_date.to_s(:short) %>
+    <% else %>
+      Still following
+    <% end %>
+  </td>
+  <td>
+    <% if twitter_follow.unfollowed %>
+      <button class="btn btn-success btn-sm" disabled>
+        <span class="glyphicon glyphicon-ok"></span> Unfollowed
+      </button>
+    <% else %>
+      <%= form_tag unfollow_twitter_follow_path(twitter_follow), method: :post, remote: true do %>
+        <%= button_tag class: 'btn btn-warning btn-sm' do %>
+          <span class="glyphicon glyphicon-remove"></span> Unfollow
+        <% end %>
+      <% end %>
+    <% end %>
+  </td>
+</tr> 

@@ -13,10 +13,8 @@ class ApplicationController < ActionController::Base
   end
 
   def new_user?
-      return unless current_user
-      twitter_follow_preference = current_user.twitter_follow_preference
-      !(current_user.created_at < 4.hours.ago) && twitter_follow_preference.present? && twitter_follow_preference.hashtags.blank?
+    return unless current_user
+    twitter_follow_preference = current_user.twitter_follow_preference
+    !(current_user.created_at < 4.hours.ago) && twitter_follow_preference.present? && twitter_follow_preference.hashtags.blank?
   end
-
-
 end
