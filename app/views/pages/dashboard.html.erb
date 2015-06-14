@@ -1,6 +1,15 @@
 <% if current_user.twitter_check? %>
     <% if @followed_users_count > 0 %>
-        You've followed <%= @followed_users_count %> users since <%= @began_following_users %>
+        <div class="jumbotron" id="followed-count">
+            <h1><%= @followed_users_count %></h1>
+            <p>users followed since <%= @began_following_users.to_formatted_s(:long) %></p>
+        </div>
+        <div class="alert alert-info alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <p><strong>Tip!</strong> You can adjust your <a href="<%= edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %>">preferences</a> anytime to change the hashtags to follow. You can also check the detailed <a href="<%= twitter_follows_path %>">activity</a> and unfollow people manually.</p>
+        </div>
     <% else %>
         <div class="alert alert-info" role="alert">
             <h4>Looking good!</h4>
