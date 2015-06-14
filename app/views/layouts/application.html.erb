@@ -9,8 +9,39 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if current_user %>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/dashboard">Followr</a>
+      </div>
 
-  <% unless current_user %>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <!--li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li-->
+          <li><a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Preferences</a></li>
+          <li><a href="/twitter_follows/<%= current_user.id %>">Following</a></li>
+          
+        </ul>
+        
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/logout">Logout</a></li>
+        </ul>
+        <p class="navbar-text navbar-right"><%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>, <a href="https://twitter.com/<%= current_user.twitter_username %>" class="navbar-link" target="_blank">@<%= current_user.twitter_username %></a></p>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+    <% if flash[:notice] %>
+      <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
+    <% end %>
+  <% else %>
   <header class="jumbotron">
     <div class="container">
       <h1>Followr</h1>
@@ -21,18 +52,7 @@
   <% end %>
 
   <div class="container">
-    <% if current_user %>
-    <ul class="nav nav-pills">
-        <li role="presentation"><a href="/dashboard">Home</a></li>
-        <li role="presentation"><a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Preferences</a></li>
-        <li role="presentation"><a href="/twitter_follows/<%= current_user.id %>">Following</a></li>
-        <li role="presentation"><a href="/logout">Logout</a></li>
-    </ul>
 
-      <% if flash[:notice] %>
-        <div class="alert alert-success" role="alert"><%= flash[:notice] %></div>
-      <% end %>
-    <% end %>
 
     <%= yield %>
 
