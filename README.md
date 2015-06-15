@@ -67,6 +67,9 @@ APP_DB_USER=""
 APP_DB_PASSWORD=""
 APP_DB_HOST="localhost"
 
+# Redis configuration
+REDIS_URL="redis://127.0.0.1:6379/1"
+
 # Twitter application key/secret
 TWITTER_CONSUMER_KEY=""
 TWITTER_CONSUMER_SECRET=""
