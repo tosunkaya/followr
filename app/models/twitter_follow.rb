@@ -3,6 +3,8 @@ class TwitterFollow < ActiveRecord::Base
 	validates_presence_of :username
  	validates_uniqueness_of :user_id, :scope => :username
 
+ 	scope :recent, ->(limit = 200) { order('created_at desc').limit(200) }
+
 	def self.follow(user, username, hashtag, twitter_user_id)
 	    entry = TwitterFollow.new
 	    entry.user_id = user.id
@@ -11,5 +13,12 @@ class TwitterFollow < ActiveRecord::Base
 	    entry.hashtag = hashtag
 	    entry.twitter_user_id = twitter_user_id
 	    entry.save
+	end
+
+	def unfollow!
+		return if unfollowed
+		client = user.credential.twitter_client rescue nil
+		client.unfollow(username)
+    update_attributes!({ unfollowed: true, unfollowed_at: DateTime.now })
 	end
 end

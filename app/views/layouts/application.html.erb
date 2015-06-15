@@ -1,28 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Followr</title>
+  <title>Followr &bull; Get more Twitter followers. Automatically.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class='nav'>
-    <% if current_user %>
-      <a href="/dashboard">Home</a> |
-      <a href="/twitter_follow_preferences/<%= current_user.twitter_follow_preference.id %>/edit">Preferences</a> |
-      <a href="/twitter_follows/<%= current_user.id %>">Following</a> |
-      <a href="/logout">Logout</a> 
-    <% end %>
-  </div>
+  <% if current_user %>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="<%= dashboard_path %>">Followr</a>
+      </div>
 
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <% 
+            {
+              "Preferences" => edit_twitter_follow_preference_path(current_user.twitter_follow_preference),
+              "Activity" => twitter_follows_path
+            }.each do |link, path| %>
 
-  <% if flash[:notice] %>
-    <div class="notice"><%= flash[:notice] %></div> <br>
+            <li<%=' class="active"'.html_safe if current_page?(path) %>>
+              <a href="<%= path %>">
+                <%= link %> 
+                <% if current_page?(path) %>
+                  <span class="sr-only">(current)</span>
+                <% end %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+        
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="<%= signout_path %>">Logout</a></li>
+        </ul>
+        <p class="navbar-text navbar-right"><%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>, <a href="https://twitter.com/<%= current_user.twitter_username %>" class="navbar-link" target="_blank">@<%= current_user.twitter_username %></a></p>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <% else %>
+  <header class="jumbotron">
+    <div class="container">
+      <h1>Followr</h1>
+      <p class="lead">Get more Twitter followers. Automatically.</p>
+      <p><a class="btn btn-primary btn-lg" href="/auth/twitter" role="button">Sign in with Twitter</a></p>
+    </div>
+  </header>
   <% end %>
 
-  <div class='main'>
+  <div class="container">
+    <% if flash[:notice] %>
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+        <p><%= flash[:notice] %></p>
+      </div>
+    <% end %>
+
     <%= yield %>
+
   </div>
 
   <% if Rails.env.production? %>
