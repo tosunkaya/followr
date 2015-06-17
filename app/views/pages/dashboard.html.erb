@@ -1,7 +1,7 @@
 <% if current_user.twitter_check? %>
     <% if @followed_users_count > 0 %>
         <div class="jumbotron" id="followed-count">
-            <h1><%= @followed_users_count %></h1>
+            <h1><%= number_with_delimiter(@followed_users_count, :delimiter => ',') %></h1>
             <p>users followed since <%= @began_following_users.to_formatted_s(:long) %></p>
         </div>
         <div class="alert alert-info alert-dismissable">
