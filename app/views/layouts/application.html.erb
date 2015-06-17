@@ -27,7 +27,7 @@
           <% 
             {
               "Preferences" => edit_twitter_follow_preference_path(current_user.twitter_follow_preference),
-              "Activity" => twitter_follows_path
+              "Activity" => twitter_follows_path,
             }.each do |link, path| %>
 
             <li<%=' class="active"'.html_safe if current_page?(path) %>>
@@ -42,6 +42,9 @@
         </ul>
         
         <ul class="nav navbar-nav navbar-right">
+          <% if current_admin %>
+            <li><a href='/admin'>Admin</a></li>
+          <% end %>
           <li><a href="<%= signout_path %>">Logout</a></li>
         </ul>
         <p class="navbar-text navbar-right"><%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>, <a href="https://twitter.com/<%= current_user.twitter_username %>" class="navbar-link" target="_blank">@<%= current_user.twitter_username %></a></p>
