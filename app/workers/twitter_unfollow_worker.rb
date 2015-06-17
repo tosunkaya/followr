@@ -34,8 +34,8 @@ class TwitterUnfollowWorker
             rescue Twitter::Error::Forbidden => e
               # puts "Unfollow (#{user.twitter_username}) - Twitter::Error::Forbidden #{e}"
             rescue Twitter::Error::NotFound => e
-              Airbrake.notify(e)
-              # followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
+              # Airbrake.notify(e)
+              followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
             rescue => e
               Airbrake.notify(e)
             end
