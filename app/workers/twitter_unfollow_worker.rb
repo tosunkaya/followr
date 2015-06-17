@@ -26,9 +26,12 @@ class TwitterUnfollowWorker
             begin
               username = followed_user.username
               
-              client.unmute(username)
               unfollowed = client.unfollow(username)
-              followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now }) if unfollowed.present?
+              
+              if unfollowed.present?
+                followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
+                client.unmute(username)
+              end
 
               # puts "Unfollow (#{user.twitter_username}) - Unfollowing #{followed_user.username}"
             rescue Twitter::Error::Forbidden => e
