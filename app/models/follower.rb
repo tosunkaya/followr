@@ -5,7 +5,7 @@ class Follower < ActiveRecord::Base
 	def self.compose(user)
 		begin
       client = user.credential.twitter_client rescue nil
-      followers_count = client.followers.count rescue nil
+      followers_count = client.follower_ids.count rescue nil
 
       return if client.nil? || followers_count.nil?
 

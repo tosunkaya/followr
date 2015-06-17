@@ -18,17 +18,16 @@ class TwitterFollowWorker
 
           client = user.credential.twitter_client rescue nil
 
-          next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
+          begin
+            if DateTime.now.in_time_zone.hour == 23 # 11 pm pst
+              Follower.compose(user) if Follower.can_compose_for?(user)
+              puts "Follower count composed for #{user.twitter_username}"
+            end
+          rescue => e
+            Airbrake.notify(e)
+          end
 
-          # TODO this doesn't work
-          # keep count of followers daily
-          # begin
-          #   if DateTime.now.in_time_zone.hour = 23 # 11pm pst
-          #     Follower.compose(user) if Follower.can_compose_for?(user)
-          #   end
-          # rescue => e
-          #   Airbrake.notify(e)
-          # end
+          next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
 
           usernames = []
 
