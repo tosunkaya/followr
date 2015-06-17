@@ -9,6 +9,7 @@ class PagesController < ApplicationController
     redirect_to root_path and return if current_user.nil?
     session[:user_id] = nil unless current_user.credential.is_valid?
 
+    @followers_count = current_user.followers.last.count if current_user.followers.present?
     @followed_users_count = current_user.twitter_follows.count
     @began_following_users = current_user.began_following_users
   end
