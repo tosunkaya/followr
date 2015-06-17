@@ -19,6 +19,7 @@ class TwitterFollow < ActiveRecord::Base
 		return if unfollowed
 		client = user.credential.twitter_client rescue nil
 		client.unfollow(username)
-    update_attributes!({ unfollowed: true, unfollowed_at: DateTime.now })
+		client.unmute(username)
+	    update_attributes!({ unfollowed: true, unfollowed_at: DateTime.now })
 	end
 end
