@@ -11,12 +11,12 @@ class User < ActiveRecord::Base
   after_create :init_follow_prefs
   
   def self.create_with_omniauth(auth)
-      create! do |user|  
-        user.twitter_uid = auth["uid"]  
-        user.twitter_username = auth["info"]['nickname']
-        user.name = auth["info"]["name"]
-        Credential.create_with_omniauth(user, auth)
-      end
+    create! do |user|
+      user.twitter_uid = auth["uid"]  
+      user.twitter_username = auth["info"]['nickname']
+      user.name = auth["info"]["name"]
+      Credential.create_with_omniauth(user, auth)
+    end
   end
 
   def init_follow_prefs
@@ -39,18 +39,20 @@ class User < ActiveRecord::Base
   end
 
   def can_twitter_follow?
+    return false unless self.credential.is_valid
     return false if twitter_follow_preference.rate_limit_until > DateTime.now
+
     followed_in_last_hour = self.twitter_follows.where('followed_at > ?', 1.hour.ago) 
     followed_in_last_day = self.twitter_follows.where('followed_at > ?', 24.hours.ago)
-
     return false if followed_in_last_hour.count >= 30 || followed_in_last_day.count >= 720
     true
   end
 
   def can_twitter_unfollow?
+    return false unless self.credential.is_valid
+
     unfollowed_in_last_hour = self.twitter_follows.where('unfollowed_at > ?', 1.hour.ago) 
     unfollowed_in_last_day = self.twitter_follows.where('unfollowed_at > ?', 24.hours.ago)
-
     return false if unfollowed_in_last_hour.count >= 50 || unfollowed_in_last_day.count >= 900
     true
   end

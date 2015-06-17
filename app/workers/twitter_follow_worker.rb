@@ -57,14 +57,13 @@ class TwitterFollowWorker
           sleep_time = (e.rate_limit.reset_in + 1.minute)/60 rescue 16
           follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
           follow_prefs.save
-          # puts "Sleeping until: #{follow_prefs.rate_limit_until}: (#{user.twitter_username})"
         rescue Twitter::Error::Forbidden => e
           # Airbrake.notify(e)
           puts e
         rescue Twitter::Error::Unauthorized => e
-          follow_prefs.update_attributes(mass_follow: false, mass_unfollow: false)
-          puts e
-          Airbrake.notify(e)
+          # follow_prefs.update_attributes(mass_follow: false, mass_unfollow: false)
+          user.credential.update_attributes(is_valid: false)
+          puts "#{user.twitter_username} || #{e}"
         rescue => e
           Airbrake.notify(e)
         end

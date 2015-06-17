@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512020855) do
+ActiveRecord::Schema.define(version: 20150617050934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "credentials", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.string   "encrypted_twitter_oauth_token_secret"
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
     t.string   "encrypted_twitter_oauth_token"
+    t.string   "encrypted_twitter_oauth_token_secret"
+    t.boolean  "is_valid",                             default: true
   end
 
   create_table "followers", force: :cascade do |t|
@@ -38,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150512020855) do
     t.integer  "user_id"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.datetime "rate_limit_until", default: '2015-05-01 04:41:07'
+    t.datetime "rate_limit_until", default: '2015-06-17 04:23:24'
     t.boolean  "mass_follow",      default: true
     t.boolean  "mass_unfollow",    default: true
   end
