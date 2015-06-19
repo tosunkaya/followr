@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :twitter_follow_preferences, :only => [:edit, :update]
+  resources :twitter_follow_preferences, path: 'twitter/preferences', :only => [:edit, :update]
 
-  resources :twitter_follows, :only => [:index] do
+  resources :twitter_follows, path: 'twitter/activity', :only => [:index] do
     post 'unfollow', on: :member
   end
 
