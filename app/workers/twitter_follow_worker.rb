@@ -23,7 +23,7 @@ class TwitterFollowWorker
 
           next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
 
-          usernames = []
+          # usernames = []
 
           hashtags.each do |hashtag|
             tweets = client.search("##{hashtag}").collect.take(rand(20..300))
@@ -32,8 +32,8 @@ class TwitterFollowWorker
               username = tweet.user.screen_name.to_s
               twitter_user_id = tweet.user.id
 
-              next if usernames.include?(username)
-              usernames << username
+              # next if usernames.include?(username)
+              # usernames << username
 
               # dont follow people we previously have
               entry = TwitterFollow.where(user: user, username: username)
