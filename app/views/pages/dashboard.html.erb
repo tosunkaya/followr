@@ -2,8 +2,10 @@
     <% if @followed_users_count > 0 %>
         <div class="jumbotron col col-md-12" id="followed-count">
             <div class='col col-md-6'>
-                <h1><%= number_with_delimiter(@followed_users_count, :delimiter => ',') %></h1>
-                <p>users followed since <%= @began_following_users.to_formatted_s(:long) %></p>
+                <% if @yesterdays_followers %>
+                    <h1><%= number_with_delimiter(@yesterdays_followers, delimited: ',') %></h1>
+                    <p>followers yesterday</p>
+                <% end %>
             </div>
             <div class='col col-md-6'>
                 <% if @followers_count %>
@@ -13,15 +15,13 @@
             </div>
             <div class='col col-md-6'>
                 <% if @yesterdays_followers %>
-                    <h1><%= number_with_delimiter(@yesterdays_followers, delimited: ',') %></h1>
-                    <p>followers yesterday</p>
-                <% end %>
-            </div>
-            <div class='col col-md-6'>
-                <% if @yesterdays_followers %>
                     <h1><%= number_with_delimiter(@followers_count - @yesterdays_followers, delimited: ',') %></h1>
                     <p>difference</p>
                 <% end %>
+            </div>
+            <div class='col col-md-6'>
+                <h1><%= number_with_delimiter(@followed_users_count, :delimiter => ',') %></h1>
+                <p>users followed since <%= @began_following_users.to_formatted_s(:long) %></p>
             </div>
         </div>
         <div class="alert alert-info alert-dismissable">
