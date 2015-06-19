@@ -9,9 +9,18 @@ class PagesController < ApplicationController
     redirect_to root_path and return if current_user.nil?
     session[:user_id] = nil unless current_user.credential.is_valid?
 
-    @followers_count = current_user.followers.last.count if current_user.followers.present?
+    if current_user.followers.present?
+      @followers_count = current_user.followers.last.count
+      yesterday = DateTime.now.in_time_zone.to_date - 1.day
+      @yesterdays_followers = current_user.followers.select { |f| f.created_at.to_date == yesterday }.first.count rescue nil
+    end
+    # TODO add percent difference
+
     @followed_users_count = current_user.twitter_follows.count
     @began_following_users = current_user.began_following_users
+
+
+
   end
 
   def admin

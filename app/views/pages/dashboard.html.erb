@@ -11,6 +11,12 @@
                     <p>followers the last time we checked</p>
                 <% end %>
             </div>
+            <div class='col col-md-12'>
+                <% if @yesterdays_followers %>
+                    <h1><%= @yesterdays_followers %></h1>
+                    <p>followers yesterday</p>
+                <% end %>
+            </div>
         </div>
         <div class="alert alert-info alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
