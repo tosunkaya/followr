@@ -11,10 +11,16 @@
                     <p>followers the last time we checked</p>
                 <% end %>
             </div>
-            <div class='col col-md-12'>
+            <div class='col col-md-6'>
                 <% if @yesterdays_followers %>
-                    <h1><%= @yesterdays_followers %></h1>
+                    <h1><%= number_with_delimiter(@yesterdays_followers, delimited: ',') %></h1>
                     <p>followers yesterday</p>
+                <% end %>
+            </div>
+            <div class='col col-md-6'>
+                <% if @yesterdays_followers %>
+                    <h1><%= number_with_delimiter(@followers_count - @yesterdays_followers, delimited: ',') %></h1>
+                    <p>difference</p>
                 <% end %>
             </div>
         </div>
