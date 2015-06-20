@@ -50,8 +50,9 @@ Vagrant.configure("2") do |config|
 
   # Memory & CPU
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 2048
     v.cpus = 2
+    v.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000 ]
   end
 
   # Start foreman on vagrant up
