@@ -17,7 +17,8 @@ class TwitterFollowWorker
           hashtags = follow_prefs.hashtags.gsub('#','').gsub(' ','').split(',').shuffle
 
           client = user.credential.twitter_client rescue nil
-
+          next if client.nil? 
+          
           # Keep track of # of followers user has hourly
           Follower.compose(user) if Follower.can_compose_for?(user)
 
