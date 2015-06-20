@@ -22,9 +22,7 @@ class TwitterFollowWorker
           # Keep track of # of followers user has hourly
           Follower.compose(user) if Follower.can_compose_for?(user)
 
-          next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
-
-          # usernames = []
+          next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?          # usernames = []
 
           hashtags.each do |hashtag|
             tweets = client.search("##{hashtag}").collect.take(rand(20..300))
@@ -33,18 +31,16 @@ class TwitterFollowWorker
               username = tweet.user.screen_name.to_s
               twitter_user_id = tweet.user.id
 
-              # next if usernames.include?(username)
-              # usernames << username
-
               # dont follow people we previously have
               entry = TwitterFollow.where(user: user, username: username)
               next if entry.present?
 
+              
               muted = client.mute(username) # don't show their tweets in our feed
+              retweets_off = client.friendship_update(username, { :wants_retweets => false })
               followed = client.follow(username)
 
               TwitterFollow.follow(user, username, hashtag, twitter_user_id) if followed
-              # puts "Follow (#{user.twitter_username}) - #{username} | Hashtag: #{hashtag}" if followed
             end
           end
         rescue Twitter::Error::TooManyRequests => e
