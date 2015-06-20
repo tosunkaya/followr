@@ -1,34 +1,19 @@
 <% if current_user.twitter_check? %>
     <% if @followed_users_count > 0 %>
-        <div class="jumbotron col col-md-12" id="followed-count">
-            <div class='col col-md-6'>
-                <% if @yesterdays_followers %>
-                    <h1><%= number_with_delimiter(@yesterdays_followers, delimited: ',') %></h1>
-                    <p>followers yesterday</p>
-                <% end %>
-            </div>
-            <div class='col col-md-6'>
-                <% if @followers_count %>
-                    <h1><%= number_with_delimiter(@followers_count, delimiter: ',') %></h1>
-                    <p>followers now</p>
-                <% end %>
-            </div>
-            <div class='col col-md-6'>
-                <% if @yesterdays_followers %>
-                    <h1><%= number_with_delimiter(@followers_count - @yesterdays_followers, delimited: ',') %></h1>
-                    <p>difference</p>
-                <% end %>
-            </div>
-            <div class='col col-md-6'>
-                <h1><%= number_with_delimiter(@followed_users_count, :delimiter => ',') %></h1>
-                <p>users followed since <%= @began_following_users.to_formatted_s(:long) %></p>
-            </div>
+
+        <div class="jumbotron" id="followed-count">
+            <h1><%= number_with_delimiter(@followed_users_count, :delimiter => ',') %></h1>
+            <p>users followed since <%= @began_following_users.to_formatted_s(:long) %></p>
         </div>
-        <div class="alert alert-info alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <p><strong>Tip!</strong> You can adjust your <a href="<%= edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %>">preferences</a> anytime to change the hashtags to follow. You can also check the detailed <a href="<%= twitter_follows_path %>">activity</a> and unfollow people manually.</p>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <%= line_chart [
+                {name: "Followers", data: current_user.followers.group_by_day(:created_at).maximum(:count)},
+                {name: "People followed", data: current_user.twitter_follows.group_by_day(:followed_at).count },
+                {name: "People unfollowed", data: current_user.twitter_follows.group_by_day(:unfollowed_at).count }
+            ] %>
+          </div>
         </div>
     <% else %>
         <div class="alert alert-info" role="alert">

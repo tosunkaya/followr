@@ -39,6 +39,10 @@ gem 'draper', '~> 1.3'
 gem 'activeadmin', '~> 1.0.0.pre1'
 gem 'devise'
 
+# Charting
+gem 'groupdate'
+gem 'chartkick'
+
 # Debugging
 group :development, :test do 
   gem 'byebug'
