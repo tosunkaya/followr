@@ -21,7 +21,7 @@ ActiveAdmin.register User do
     column :name
     column :twitter_username
     column :created_at
-    column :twitter_check?
+#    column :twitter_check?
     column (:hashtags) { |u| u.hashtags.join(',') }
     actions
   end
