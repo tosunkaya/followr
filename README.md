@@ -80,10 +80,6 @@ AIRBRAKE_API_KEY=""
 # Encryption key
 APPLICATION_SECRET_KEY=""
 
-# Sidekiq auth in production
-SIDEKIQ_USERNAME=""
-SIDEKIQ_PASSWORD=""
-
 # Rails secret
 SECRET_KEY_BASE=""
 ```

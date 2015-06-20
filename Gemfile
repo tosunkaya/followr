@@ -5,40 +5,41 @@ ruby '2.2.2'
 gem 'rails', '4.2.1'
 gem 'sinatra', :require => nil
 
+# Assets
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'sass-rails', '~> 4.0.3'
-
+gem 'bootstrap-sass', '~> 3.3.4'
 gem 'turbolinks'
 
-# # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.0'
-
+# Servers
 gem 'unicorn'
 gem 'pg'
 gem 'redis'
+gem 'rails_12factor', group: :production
 
+# Workers
 gem 'sidekiq'
 gem 'sidetiq'
 
-gem 'rails_12factor', group: :production
-
+# Monitoring
+gem 'newrelic_rpm'
 gem 'airbrake'
 
+# Twitter integration
 gem 'twitter'
-
 gem 'omniauth'
 gem 'omniauth-twitter'
 
 gem 'attr_encrypted'
+gem 'draper', '~> 1.3'
 
+# Admin
+gem 'activeadmin', '~> 1.0.0.pre1'
+gem 'devise'
 
-
-gem 'draper', '~> 1.3' # decorator
-
-gem 'bootstrap-sass', '~> 3.3.4'
-
+# Debugging
 group :development, :test do 
   gem 'byebug'
 
@@ -58,5 +59,3 @@ group :development, :test do
 	gem 'pry-nav'
 	gem 'rspec-rails', '~> 3.0'
 end
-
-gem 'newrelic_rpm'

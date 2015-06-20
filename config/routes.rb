@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+  require "sidekiq/web"
+  authenticate :admin_user do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
+
   resources :twitter_follow_preferences, path: 'twitter/preferences', :only => [:edit, :update]
 
   resources :twitter_follows, path: 'twitter/activity', :only => [:index] do
     post 'unfollow', on: :member
   end
-
-  require "sidekiq/web"
-
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
-  end if Rails.env.production?
-
-  mount Sidekiq::Web, at: "/sidekiq"
 
   root to: 'pages#index'
 

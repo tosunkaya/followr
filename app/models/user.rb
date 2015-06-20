@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  default_scope -> { includes(:credential, :twitter_follow_preference) }
+
   has_many :twitter_follows
   has_many :followers
 
@@ -59,6 +61,10 @@ class User < ActiveRecord::Base
 
   def began_following_users
     twitter_follows.first.created_at.to_date rescue nil
+  end
+
+  def hashtags
+    twitter_follow_preference.hashtags.gsub('#','').gsub(' ','').split(',') rescue []
   end
 
 end
