@@ -35,9 +35,8 @@ class TwitterFollowWorker
               entry = TwitterFollow.where(user: user, username: username)
               next if entry.present?
 
-              
-              muted = client.mute(username) # don't show their tweets in our feed
               retweets_off = client.friendship_update(username, { :wants_retweets => false })
+              muted = client.mute(username) # don't show their tweets in our feed
               followed = client.follow(username)
 
               TwitterFollow.follow(user, username, hashtag, twitter_user_id) if followed
