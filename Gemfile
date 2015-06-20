@@ -33,6 +33,8 @@ gem 'omniauth-twitter'
 
 gem 'attr_encrypted'
 
+
+
 gem 'draper', '~> 1.3' # decorator
 
 gem 'bootstrap-sass', '~> 3.3.4'
@@ -57,3 +59,4 @@ group :development, :test do
 	gem 'rspec-rails', '~> 3.0'
 end
 
+gem 'newrelic_rpm'
