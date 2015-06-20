@@ -1,4 +1,9 @@
 ActiveAdmin.register User do
+  controller do
+    def find_resource
+      User.find_by_id(params[:id])
+    end
+  end
 
 
   # See permitted parameters documentation:
