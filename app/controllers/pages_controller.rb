@@ -23,9 +23,4 @@ class PagesController < ApplicationController
 
   end
 
-  def admin
-    redirect_to root_path and return unless current_admin
-
-    @users = User.all
-  end
 end

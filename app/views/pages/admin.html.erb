@@ -1,6 +1,0 @@
-<h4> Registered users: <%= User.all.count %> </h4>
-<ul>
-  <% @users.each do |user| %>
-    <li> <%= user.twitter_username %> | Set up? <%= user.twitter_check? %> <%= user.twitter_follow_preference.hashtags if user.twitter_check? %> </li>
-  <% end %>
-</ul>

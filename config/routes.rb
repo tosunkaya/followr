@@ -20,7 +20,6 @@ Rails.application.routes.draw do
   end
 
   get '/dashboard' => 'pages#dashboard', as: 'dashboard'
-  get '/admin' => 'pages#admin', as: 'admin'
 
   get "/auth/:provider/callback" => "sessions#create"
   get '/auth/failure' => 'pages#index'
