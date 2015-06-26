@@ -10,53 +10,44 @@ class TwitterFollowWorker
       return
     end
 
-    User.wants_twitter_follow.find_in_batches do |group|
-      group.each do |user|
-        begin
-          follow_prefs = user.twitter_follow_preference
-          hashtags = follow_prefs.hashtags.gsub('#','').gsub(' ','').split(',').shuffle
+    User.wants_twitter_follow.find_each do |user|
+      begin
+        # Keep track of # of followers user has hourly
+        # TODO This should go in its own worker
+        Stat.compose(user) if Stat.can_compose_for?(user)
 
-          client = user.credential.twitter_client rescue nil
-          next if client.nil? 
-          
-          # Keep track of # of followers user has hourly
-          Follower.compose(user) if Follower.can_compose_for?(user)
+        next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?
 
-          next if !user.twitter_check? || user.rate_limited? || !user.can_twitter_follow?          # usernames = []
-
-          hashtags.each do |hashtag|
-            tweets = client.search("##{hashtag}").collect.take(rand(20..300))
-
-            tweets.each do |tweet|
-              username = tweet.user.screen_name.to_s
-              twitter_user_id = tweet.user.id
-
-              # dont follow people we previously have
-              entry = TwitterFollow.where(user: user, username: username)
-              next if entry.present?
-
-              client.friendship_update(username, { :wants_retweets => false })
-              muted = client.mute(username) # don't show their tweets in our feed
-              followed = client.follow(username)
-
-              TwitterFollow.follow(user, username, hashtag, twitter_user_id) if followed
-            end
+        hashtags = user.hashtags
+        results = hashtags.flat_map do |hashtag|
+          # Take at most 100 tweets in total to examine, divided by hashtag
+          # 100 is the max page size for a twitter search -> we make sure that we're doing
+          # at most 1 HTTP request per hashtag
+          client.search("##{hashtag}").take((100 / hashtags.count).round).map do |tweet|
+            { hashtag: hashtag, uid: tweet.user.id, username: tweet.user.screen_name }
           end
-        rescue Twitter::Error::TooManyRequests => e
-          # rate limited - set rate_limit_until timestamp
-          sleep_time = (e.rate_limit.reset_in + 1.minute)/60 rescue 16
-          follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
-          follow_prefs.save
-        rescue Twitter::Error::Forbidden => e
-          # Airbrake.notify(e)
-          puts e
-        rescue Twitter::Error::Unauthorized => e
-          # follow_prefs.update_attributes(mass_follow: false, mass_unfollow: false)
-          user.credential.update_attributes(is_valid: false)
-          puts "#{user.twitter_username} || #{e}"
-        rescue => e
-          Airbrake.notify(e)
         end
+
+        # Exclude all the users already followed in the past, with 1 query to the DB
+        already_followed_uids = user.follows.where(uid: results.pluck(:uid).uniq).select(:uid)
+        new_follows = results.reject { |r| already_followed_uids.include? o[:uid] }
+
+        # TODO order by some euristics to pick the best ones instead of shuffling
+        new_follows.sample(15).each do |r|
+          user.follow!(r[:uid], r[:username], r[:hashtag])
+        end
+
+      rescue Twitter::Error::TooManyRequests => e
+        # rate limited - set rate_limit_until timestamp
+        sleep_time = (e.rate_limit.reset_in + 1.minute) rescue 16.minutes
+        user.account.update_attributes!({ rate_limit_until: DateTime.now + sleep_time })
+      rescue Twitter::Error::Forbidden => e
+        # Airbrake.notify(e)
+        puts e
+      rescue Twitter::Error::Unauthorized => e
+        user.credential.update_attributes!(is_valid: false)
+      rescue => e
+        Airbrake.notify(e)
       end
     end
   end
