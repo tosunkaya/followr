@@ -1,4 +1,4 @@
-class TwitterFollowPreference < ActiveRecord::Base
+class Account < ActiveRecord::Base
 	belongs_to :user
 
 	validates_presence_of :user
