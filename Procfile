@@ -1,2 +1,2 @@
-web: bundle exec unicorn -c lib/unicorn/config.rb -p $PORT
+web: bundle exec unicorn -p $PORT -c ./config/unicorn.rb
 worker: bundle exec sidekiq -c 10 -q default,1
