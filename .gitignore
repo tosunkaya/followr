@@ -19,4 +19,4 @@
 .DS_Store
 .env
 
-.vagrant/**
+.vagrant

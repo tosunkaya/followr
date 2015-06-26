@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # Exit immediately if anything fails
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 echo "#### Global provisioning"
 
@@ -89,7 +90,7 @@ service redis-server restart
 ##### Install PostgreSQL
 PG_VERSION=9.3
 
-echo 
+echo
 echo "-- Installing PostgreSQL $PG_VERSION"
 apt-get -yq install "postgresql-$PG_VERSION" "postgresql-contrib-$PG_VERSION" > /dev/null
 
@@ -100,7 +101,7 @@ sed -i 's/^local\\s\\+all\\s\\+all\\s\\+peer/local all all md5/g' "$PG_HBA"
 
 echo "client_encoding = utf8" >> "/etc/postgresql/$PG_VERSION/main/postgresql.conf"
 
-service postgresql restart  
+service postgresql restart
 
 
 ##### Create DB

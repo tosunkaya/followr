@@ -58,7 +58,7 @@ Vagrant.configure("2") do |config|
   # Start foreman on vagrant up
   config.trigger.after :up do
     info "Starting or reattaching to application server..."
-    system "vagrant ssh -c 'cd /vagrant && (pgrep -x screen > /dev/null && screen -R -D || (screen bash -c \"while :; do foreman start -e .env,.env.development; echo; echo \\\"Process terminated with code $?. Press ENTER to restart, Ctrl-C to exit\\\"; read; done\"))'"
+    system "vagrant ssh -c 'cd /vagrant && (pgrep -x screen > /dev/null && screen -R -D || (screen bash -c \"while :; do foreman start -e .env,.env.development -f Procfile.development; echo; echo \\\"Process terminated with code $?. Press ENTER to restart, Ctrl-C to exit\\\"; read; done\"))'"
     info "Application server stopped or session detached."
     warn "To restart or reattach please type 'vagrant up' again, to stop the VM 'vagrant halt'."
   end

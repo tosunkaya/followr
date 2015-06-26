@@ -2,7 +2,8 @@
 
 echo "#### Updating app"
 # Exit immediately if anything fails
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 ##### Load environment variables
 
