@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20150625022254) do
     t.integer  "user_id"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.datetime "rate_limit_until", default: '2015-06-17 04:23:24'
+    t.datetime "rate_limit_until"
     t.boolean  "mass_follow",      default: true
     t.boolean  "mass_unfollow",    default: true
   end

@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def rate_limited?
-    twitter_follow_preference.rate_limit_until > DateTime.now
+    twitter_follow_preference.rate_limited?
   end
 
   # true if all is good to start following
