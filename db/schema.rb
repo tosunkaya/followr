@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150620093257) do
+ActiveRecord::Schema.define(version: 20150625022254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20150620093257) do
     t.integer  "user_id"
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.datetime "rate_limit_until", default: '2015-06-13 13:24:14'
+    t.datetime "rate_limit_until", default: '2015-06-17 04:23:24'
     t.boolean  "mass_follow",      default: true
     t.boolean  "mass_unfollow",    default: true
   end
@@ -74,6 +74,9 @@ ActiveRecord::Schema.define(version: 20150620093257) do
     t.string   "hashtag"
     t.string   "twitter_user_id"
   end
+
+  add_index "twitter_follows", ["user_id"], name: "index_twitter_follows_on_user_id", using: :btree
+  add_index "twitter_follows", ["username"], name: "index_twitter_follows_on_username", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"

@@ -13,20 +13,20 @@ class User < ActiveRecord::Base
   def self.find_or_create_by_omniauth!(auth)
     user = User.where(uid: auth["uid"]).take
     if user
-      user.tap do |user|
-        c = user.credential || user.build_credential
+      user.tap do |u|
+        c = u.credential || u.build_credential
         c.oauth_token = auth["extra"]["access_token"].params[:oauth_token]
         c.oauth_token_secret = auth["extra"]["access_token"].params[:oauth_token_secret]
         c.is_valid = true
-        c.save! if c.changed?
+        c.save! if c.new_record? || c.changed?
       end
     else
-      create! do |user|
-        user.uid = auth["uid"]
-        user.username = auth["info"]['nickname']
-        user.name = auth["info"]["name"]
-        user.build_account
-        user.build_credential({
+      create! do |u|
+        u.uid = auth["uid"]
+        u.username = auth["info"]['nickname']
+        u.name = auth["info"]["name"]
+        u.build_account
+        u.build_credential({
           oauth_token: auth["extra"]["access_token"].params[:oauth_token],
           oauth_token_secret: auth["extra"]["access_token"].params[:oauth_token_secret]
         })
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
 
   # true if all is good to start following
   def twitter_check?
-    (credential.twitter_client rescue nil).nil? && !hashtags.empty? && account.want_mass_follow?
+    (credential.twitter_client rescue nil).nil? && !hashtags.empty? && (account.want_mass_follow? || account.mass_unfollow)
   end
 
   def can_twitter_follow?
