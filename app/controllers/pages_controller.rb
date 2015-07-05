@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   def dashboard
     unless current_user || current_user.credential.is_valid?
       session[:user_id] = nil
-      redirect_to root_path
+      redirect_to root_path and return
     end
 
     if current_user.followers.present?
