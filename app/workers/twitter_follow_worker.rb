@@ -48,8 +48,10 @@ class TwitterFollowWorker
           follow_prefs.rate_limit_until = DateTime.now + sleep_time.minutes
           follow_prefs.save
         rescue Twitter::Error::Forbidden => e
-          # Airbrake.notify(e)
-          puts e
+          if e.message.index('Application cannot perform write actions')
+            Airbrake.notify(e)
+            user.credential.update_attributes(is_valid: false)
+          end
         rescue Twitter::Error::Unauthorized => e
           # follow_prefs.update_attributes(mass_follow: false, mass_unfollow: false)
           user.credential.update_attributes(is_valid: false)
