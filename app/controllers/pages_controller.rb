@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   end
 
   def dashboard
-    unless current_user || current_user.credential.is_valid?
+    unless current_user || (current_user && current_user.credential.is_valid?)
       session[:user_id] = nil
       redirect_to root_path and return
     end
