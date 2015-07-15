@@ -53,11 +53,11 @@
 
 <!--TODO: we ask for user email here, as this acts as temp preferences -->
 
-<% unless current_user.email %>
+<% if current_user.email.nil? %>
   <hr>
   <h4>Need your email.</h4>
     <p class='col col-md-3'>
-        Twitter likes to restrict Followr's access sometime's. When that happens, you'll need to come back and reauthenticate yourself. We'll email you when that happens.
+        Twitter likes to restrict Followr's access sometimes. When that happens, you'll need to come back and reauthenticate yourself. We'll email you when that happens.
         <%= form_for current_user, method: :put do |f| %>
           Email: <%= f.email_field :email %>
             <%= f.submit 'Submit' %>
