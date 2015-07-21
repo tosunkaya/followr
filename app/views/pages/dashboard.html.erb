@@ -26,6 +26,7 @@
         <h4>Hey man!</h4>
         <p>It looks like you still need to set things up.<br>Just check your preferences so that we can start following some awesome people for you.
         </p>
+        <p>If you're seeing this after setting things up, Twitter may have restricted Followr's write access. Try <%= link_to 'logging out and back in again', signout_path %></p>
         <p>
             <a href="<%= edit_twitter_follow_preference_path(current_user.twitter_follow_preference) %>" class="btn btn-default">Set my preferences</a>
         </p>

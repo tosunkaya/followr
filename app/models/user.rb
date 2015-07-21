@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   scope :wants_twitter_follow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.mass_follow IS TRUE') }
   scope :wants_twitter_unfollow, -> { joins('INNER JOIN twitter_follow_preferences ON (users.id = user_id)').where('twitter_follow_preferences.mass_unfollow IS TRUE') }
+  # scope :reauthentication_notification
 
   after_create :init_follow_prefs
 

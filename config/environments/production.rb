@@ -74,6 +74,21 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.mandrillapp.com",
+    :port                 => 587,
+    :enable_starttls_auto => true,
+    :from                 => 'no-reply@followr.club',
+    :user_name            => ENV['MANDRILL_USERNAME'],
+    :password             => ENV['MANDRILL_API_KEY'],
+    :authentication       => 'plain',
+    :domain               => 'followr.club',
+  }
+
+  config.action_mailer.raise_delivery_errors = true
+  ActionMailer::Base.default :from => 'Followr <no-reply@followr.club>'
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
