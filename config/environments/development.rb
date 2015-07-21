@@ -37,14 +37,12 @@ Rails.application.configure do
   config.assets.raise_runtime_errors = true
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
+  ActionMailer::Base.smtp_settings = {
     :address              => "smtp.mandrillapp.com",
-    :port                 => 587,
-    :enable_starttls_auto => true,
-    :from                 => 'no-reply@followr.club',
+    :port                 => '587',
     :user_name            => ENV['MANDRILL_USERNAME'],
-    :password             => ENV['MANDRILL_API_KEY'],
-    :authentication       => 'plain',
+    :password             => ENV['MANDRILL_API_KEY'], # dev api key
+    :authentication       => :plain,
     :domain               => 'followr.club',
   }
 
