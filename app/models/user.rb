@@ -44,9 +44,11 @@ class User < ActiveRecord::Base
     return false unless self.credential.is_valid
     return false if twitter_follow_preference.rate_limit_until > DateTime.now
 
-    followed_in_last_hour = self.twitter_follows.where('followed_at > ?', 1.hour.ago)
-    followed_in_last_day = self.twitter_follows.where('followed_at > ?', 24.hours.ago)
-    return false if followed_in_last_hour.count >= 30 || followed_in_last_day.count >= 720
+
+    # Disable due to twitter continuously blocking the app regardless of this
+    # followed_in_last_hour = self.twitter_follows.where('followed_at > ?', 1.hour.ago)
+    # followed_in_last_day = self.twitter_follows.where('followed_at > ?', 24.hours.ago)
+    # return false if followed_in_last_hour.count >= 30 || followed_in_last_day.count >= 720
     true
   end
 
