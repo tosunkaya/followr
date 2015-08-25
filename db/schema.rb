@@ -56,9 +56,9 @@ ActiveRecord::Schema.define(version: 20150625022254) do
     t.integer  "unfollow_after",   default: 1
     t.text     "hashtags",         default: ""
     t.integer  "user_id"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.datetime "rate_limit_until", default: '2015-06-13 13:24:14'
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.datetime "rate_limit_until"
     t.boolean  "mass_follow",      default: true
     t.boolean  "mass_unfollow",    default: true
   end
