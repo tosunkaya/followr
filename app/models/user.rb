@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
 
   def self.send_reauth_email
     users = [User.wants_twitter_follow, User.wants_twitter_unfollow].flatten.uniq { |l| l.email }
-    user.each do |user|
+    users.each do |user|
       next unless user.email.present?
       UserMailer.reauthentication_notification(user).deliver_later
     end
