@@ -2,7 +2,7 @@ class TwitterUnfollowWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(30) }
+  recurrence { hourly.minute_of_hour(45) }
 
   def perform
     unless ENV['WORKERS_DRY_RUN'].blank?
