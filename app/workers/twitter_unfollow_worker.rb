@@ -18,21 +18,24 @@ class TwitterUnfollowWorker
           users_to_unfollow = user.twitter_follows.where('followed_at <= ? AND UNFOLLOWED IS NOT TRUE', unfollow_days.to_i.days.ago)
           
           client = user.credential.twitter_client rescue nil
+          client_muted_ids = client.muted_ids.to_a rescue []
 
           next if client.nil? || users_to_unfollow.empty?
           next unless user.can_twitter_unfollow?
 
           users_to_unfollow.each do |followed_user|
             begin
-              username = followed_user.username
+              twitter_user_id = followed_user.twitter_user_id.to_i
+
+              # don't unfollow people who the user has manually unmuted
+              next unless client_muted_ids.include?(twitter_user_id)
               
-              unfollowed = client.unfollow(username)
-              
-              if unfollowed.present?
+              if client.unfollow(twitter_user_id)
                 followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
-                client.unmute(username)
-                retweets_on = client.friendship_update(username, { :wants_retweets => true })
+                client.unmute(twitter_user_id)
+                retweets_on = client.friendship_update(twitter_user_id, { :wants_retweets => true })
               end
+
             rescue Twitter::Error::Forbidden => e
             rescue Twitter::Error::NotFound => e
               followed_user.update_attributes({ unfollowed: true, unfollowed_at: DateTime.now })
