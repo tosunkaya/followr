@@ -3,7 +3,7 @@ class TwitterUnfollowWorker
   include Sidetiq::Schedulable
 
   recurrence {
-    daily.hour_of_day(0, 6, 7, 8, 22, 23)
+    hourly.minute_of_hour(2, 7, 13, 18, 23, 28, 32, 37, 42, 47, 52, 57)
    }
 
   def perform
