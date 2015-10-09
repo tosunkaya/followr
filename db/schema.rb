@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625022254) do
+ActiveRecord::Schema.define(version: 20151009035733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20150625022254) do
     t.string   "encrypted_twitter_oauth_token"
     t.string   "encrypted_twitter_oauth_token_secret"
     t.boolean  "is_valid",                             default: true
+    t.string   "encrypted_instagram_token"
   end
 
   create_table "followers", force: :cascade do |t|
@@ -80,11 +81,13 @@ ActiveRecord::Schema.define(version: 20150625022254) do
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "twitter_uid"
     t.string   "name"
     t.string   "twitter_username"
+    t.string   "instagram_uid"
+    t.string   "instagram_username"
   end
 
 end

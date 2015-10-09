@@ -4,8 +4,21 @@ class Credential < ActiveRecord::Base
 
   attr_encrypted :twitter_oauth_token, :key => ENV['APPLICATION_SECRET_KEY']
   attr_encrypted :twitter_oauth_token_secret, :key => ENV['APPLICATION_SECRET_KEY']
+  attr_encrypted :instagram_token, :key => ENV['APPLICATION_SECRET_KEY']
 
-  def self.create_with_omniauth(user, auth)
+  def self.instagram_create_with_omniauth(user, auth)
+    c = Credential.new
+    c.user = user
+    c.instagram_token = auth["credentials"]["token"]
+    c.save!
+  end
+
+  def update_instagram_token(auth)
+    self.instagram_token = auth["credentials"]["token"]
+    self.save
+  end
+
+  def self.twitter_create_with_omniauth(user, auth)
     c = Credential.new
     c.user = user
     c.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]

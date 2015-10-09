@@ -15,15 +15,30 @@ class User < ActiveRecord::Base
 
   def self.create_with_omniauth(auth)
     create! do |user|
-      user.twitter_uid = auth["uid"]
-      user.twitter_username = auth["info"]['nickname']
       user.name = auth["info"]["name"]
-      Credential.create_with_omniauth(user, auth)
+      if auth["provider"] == 'instagram'
+        user.instagram_uid = auth["uid"]
+        user.instagram_username = auth["info"]["nickname"]
+        Credential.instagram_create_with_omniauth(user, auth)
+      else
+        user.twitter_uid = auth["uid"]
+        user.twitter_username = auth["info"]['nickname']
+        Credential.twitter_create_with_omniauth(user, auth)
+      end
     end
   end
 
+  def instagram_user?
+    instagram_uid.present?
+  end
+
+  def twitter_user?
+    twitter_uid.present?
+  end
+
+
   def init_follow_prefs
-    self.twitter_follow_preference = TwitterFollowPreference.new(user: self)
+    twitter_follow_preference = TwitterFollowPreference.new(user: self)
   end
 
   def rate_limited?

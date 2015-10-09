@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Followr &bull; Get more Twitter followers. Automatically.</title>
+  <title>Followr &bull; Get more Instagram and Twitter followers. Automatically.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <link href="//fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
@@ -47,7 +47,12 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a href="<%= signout_path %>">Logout</a></li>
         </ul>
-        <p class="navbar-text navbar-right"><%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>, <a href="https://twitter.com/<%= current_user.twitter_username %>" class="navbar-link" target="_blank">@<%= current_user.twitter_username %></a></p>
+        <p class="navbar-text navbar-right"><%= ["Hey", "Yo", "Sup", "Ahoy", "Rawr", "Boo"].sample %>,
+          <% if current_user.twitter_user? %>
+          <a href="https://twitter.com/<%= current_user.twitter_username %>" class="navbar-link" target="_blank">@<%= current_user.twitter_username %></a></p>
+          <% elsif current_user.instagram_user? %>
+          <a href="https://instagram.com/<%= current_user.instagram_username %>" class="navbar-link" target="_blank">@<%= current_user.instagram_username %></a></p>
+          <% end %>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
@@ -56,8 +61,9 @@
   <header class="jumbotron">
     <div class="container">
       <h1>Followr</h1>
-      <p class="lead">Get more Twitter followers. Automatically.</p>
+      <p class="lead">Get more Instagram & Twitter followers. Automatically.</p>
       <p><a class="btn btn-primary btn-lg" href="/auth/twitter" role="button">Sign in with Twitter</a></p>
+      <p><a class="btn btn-primary btn-lg" href="/auth/instagram" role="button">Sign in with Instagram</a></p>
     </div>
   </header>
   <% end %>

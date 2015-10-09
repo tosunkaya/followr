@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :new_user?
 
   def current_user
-    User.find(session[:user_id]) if session[:user_id]
+    user = User.find(session[:user_id]) if session[:user_id] rescue nil
+    user ? user : nil
   end
 
   def new_user?

@@ -27,11 +27,9 @@ Rails.application.routes.draw do
   get '/dashboard' => 'pages#dashboard', as: 'dashboard'
 
 
-  # Twitter
+  # Twitter/INSTAGRAM
   get "/auth/:provider/callback" => "sessions#create"
   get '/auth/failure' => 'pages#index'
-
-  
   
 
 end

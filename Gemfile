@@ -31,6 +31,7 @@ gem 'airbrake'
 gem 'twitter'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'omniauth-instagram'
 
 gem 'attr_encrypted'
 gem 'draper', '~> 1.3'

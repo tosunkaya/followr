@@ -74,6 +74,10 @@ REDIS_URL="redis://127.0.0.1:6379/1"
 TWITTER_CONSUMER_KEY=""
 TWITTER_CONSUMER_SECRET=""
 
+# Instagram application key/secret
+INSTAGRAM_CLIENT_ID=""
+INSTAGRAM_CLIENT_SECRET=""
+
 # Airbrake API key
 AIRBRAKE_API_KEY=""
 
