@@ -18,12 +18,29 @@ class Credential < ActiveRecord::Base
     self.save
   end
 
+  def instagram_client
+    return nil if [instagram_token].include?(nil)
+    client = Instagram.client(:access_token => self.instagram_token)
+  end
+
   def self.twitter_create_with_omniauth(user, auth)
     c = Credential.new
     c.user = user
     c.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]
     c.twitter_oauth_token_secret = auth["extra"]["access_token"].params[:oauth_token_secret]
     c.save!
+  end
+
+  def update_twitter_token(auth)
+    self.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]
+    self.twitter_oauth_token_secret = auth["extra"]["access_token"].params[:oauth_token_secret]
+    self.save
+  end
+
+  def update_twitter_tokens(auth)
+    self.twitter_oauth_token = auth["extra"]["access_token"].params[:oauth_token]
+    self.twitter_oauth_token_secret = auth["extra"]["access_token"].params[:oauth_token_secret]
+    self.save
   end
 
 	def twitter_client

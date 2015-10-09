@@ -28,10 +28,14 @@ gem 'newrelic_rpm'
 gem 'airbrake'
 
 # Twitter integration
+gem 'instagram'
 gem 'twitter'
+
+# Authentication
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-instagram'
+
 
 gem 'attr_encrypted'
 gem 'draper', '~> 1.3'
